@@ -22,6 +22,10 @@ layer(base);
 
   --color-themeSidebarBg : #e8edf2;
   --color-themeSidebarBgDark : #e8edf2;
+
+
+  --color-themeGradientColorFrom : #534caa;
+  --color-themeGradientColorTo : #403a8a;
   /* Custom CSS Class Ends */
   --font-*: initial;
   --font-outfit: Outfit, Poppins;
@@ -214,7 +218,7 @@ layer(base);
 }
 
 @utility menu-item-active {
-  @apply bg-brand-50  dark:bg-gray-500/40 dark:text-white;
+  @apply text-[#303030] bg-themeBackgroundColor  dark:bg-gray-500/40 dark:text-white;
 }
 
 @utility menu-item-inactive {
@@ -244,11 +248,11 @@ layer(base);
 }
 
 @utility menu-item-arrow-active {
-  @apply rotate-180 text-brand-500 dark:text-brand-400;
+  @apply rotate-180 text-themeDisableIconColor dark:text-white;
 }
 
 @utility menu-item-arrow-inactive {
-  @apply text-gray-500 group-hover:text-gray-700 dark:text-gray-400 dark:group-hover:text-gray-300;
+  @apply text-themeDisableIconColor group-hover:text-gray-700 dark:text-gray-400 dark:group-hover:text-gray-300;
 }
 
 @utility menu-dropdown-item {
@@ -256,7 +260,7 @@ layer(base);
 }
 
 @utility menu-dropdown-item-active {
-  @apply bg-brand-50 text-brand-500 dark:bg-brand-500/[0.12] dark:text-brand-400;
+  @apply bg-themeBackgroundColor text-[#303030] dark:bg-gray-500/40 dark:text-white;
 }
 
 @utility menu-dropdown-item-inactive {
@@ -264,15 +268,15 @@ layer(base);
 }
 
 @utility menu-dropdown-badge {
-  @apply block rounded-full px-2.5 py-0.5 text-xs font-medium uppercase text-brand-500 dark:text-brand-400;
+  @apply block rounded-full px-2.5 py-0.5 text-xs font-medium uppercase text-themeDisableIconColor dark:text-white;
 }
 
 @utility menu-dropdown-badge-active {
-  @apply bg-brand-100 dark:bg-brand-500/20;
+  @apply bg-themeDisableIconColor dark:bg-brand-500/20;
 }
 
 @utility menu-dropdown-badge-inactive {
-  @apply bg-brand-50 group-hover:bg-brand-100 dark:bg-brand-500/15 dark:group-hover:bg-brand-500/20;
+  @apply bg-themeDisableIconColor group-hover:bg-themeDisableIconColor dark:bg-brand-500/15 dark:group-hover:bg-brand-500/20;
 }
 @utility no-scrollbar {
   /* Chrome, Safari and Opera */

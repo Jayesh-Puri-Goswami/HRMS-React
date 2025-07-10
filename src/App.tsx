@@ -17,9 +17,27 @@ import FormElements from "./pages/Forms/FormElements";
 import Blank from "./pages/Blank";
 import AppLayout from "./layout/AppLayout";
 import { ScrollToTop } from "./components/common/ScrollToTop";
-import Home from "./pages/Dashboard/Home";
+import EmployeeDashboard from "./pages/Dashboard/EmployeeDashboard";
+import { useEffect, useState } from "react";
+import Loader from "./components/ui/loader/Loader";
 
 export default function App() {
+
+  const [isLoading, setIsLoading] = useState(true)
+  
+    useEffect(() => {
+    // Simulate initial loading
+    const timer = setTimeout(() => {
+      setIsLoading(false)
+    }, 2000)
+
+    return () => clearTimeout(timer)
+  }, [])
+
+  if (isLoading) {
+    return <Loader/>
+  }
+
   return (
     <>
       <Router>
@@ -27,7 +45,7 @@ export default function App() {
         <Routes>
           {/* Dashboard Layout */}
           <Route element={<AppLayout />}>
-            <Route index path="/" element={<Home />} />
+            <Route index path="/" element={<EmployeeDashboard />} />
 
             {/* Others Page */}
             <Route path="/profile" element={<UserProfiles />} />

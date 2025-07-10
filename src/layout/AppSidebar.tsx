@@ -37,12 +37,12 @@ const navItems: NavItem[] = [
   {
     icon: <CalendarSync />,
     name: "Events",
-    path: "/profile",
+    path: "/blank",
   },
   {
     name: "Leaves",
     icon: <ListIcon />,
-    path: "/form-elements",
+    path: "/avatars",
   },
   {
     name: "Holiday",
@@ -184,7 +184,7 @@ const AppSidebar: React.FC = () => {
                   className={`ml-auto w-5 h-5 transition-transform duration-200 ${
                     openSubmenu?.type === menuType &&
                     openSubmenu?.index === index
-                      ? "rotate-180 text-brand-500"
+                      ? "rotate-180  dark:text-white"
                       : ""
                   }`}
                 />
@@ -275,7 +275,7 @@ const AppSidebar: React.FC = () => {
 
   return (
     <aside
-      className={`fixed mt-16 flex flex-col lg:mt-0 top-0 px-10 left-0 bg-white dark:bg-black dark:border-gray-800 text-gray-900 h-screen transition-all duration-300 ease-in-out z-50 border-r border-gray-200 
+      className={`fixed mt-16 flex flex-col lg:mt-0 top-0 px-10 left-0 bg-white dark:bg-black dark:border-gray-800 text-gray-900 h-screen transition-all duration-300 ease-in-out z-50 border-r border-gray-200  
         ${
           isExpanded || isMobileOpen
             ? "w-[290px]"
@@ -289,7 +289,7 @@ const AppSidebar: React.FC = () => {
       onMouseLeave={() => setIsHovered(false)}
     >
       <div
-        className={`py-8 flex justify-center items-center border-b border-gray-300`}
+        className={`py-8 flex justify-center items-center border-b border-gray-300 dark:dark:border-white/10`}
       >
         <Link to="/">
           {isExpanded || isHovered || isMobileOpen ? (
@@ -325,7 +325,7 @@ const AppSidebar: React.FC = () => {
           )}
         </Link>
       </div>
-      <div className="py-8 flex flex-col justify-between overflow-y-auto duration-300 ease-linear no-scrollbar">
+      <div className="py-8 flex flex-col justify-between overflow-y-auto duration-300 ease-linear no-scrollbar h-full">
         <nav className="mb-6">
           <div className="flex flex-col gap-4">
             <div>
