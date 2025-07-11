@@ -29,7 +29,7 @@ const LeaveCards: React.FC<LeaveCardsProps> = ({ data }) => {
         transition={{ duration: 0.5, delay: 0.4 }}
         className=""
       >
-        <Card className="bg-[#ffe0e0] dark:bg-gray-500 py-4 px-6 flex justify-between items-center h-full">
+        <Card className="bg-[#ffe0e0] dark:bg-white/[0.03] dark:border-white/10 py-4 px-6 flex justify-between items-center h-full">
           <div>
             <h3 className="text-[28px] font-semibold text-gray-900 dark:text-white">
               {data.leaveTaken.total.toString().padStart(2, "0")}
@@ -39,11 +39,11 @@ const LeaveCards: React.FC<LeaveCardsProps> = ({ data }) => {
           <div className="space-y-2 text-sm">
             <div className="flex items-center gap-2">
               <div className="w-3 h-3 rounded-sm bg-[#6f2cf5]"></div>
-              <span className="text-gray-800">Paid-{data.leaveTaken.paid}</span>
+              <span className="text-gray-400">Paid-{data.leaveTaken.paid}</span>
             </div>
             <div className="flex items-center gap-2">
               <div className="w-3 h-3 rounded-sm bg-[#5a5a5a] dark:bg-warning-25"></div>
-              <span className="text-gray-800">Unpaid-{data.leaveTaken.unpaid}</span>
+              <span className="text-gray-400">Unpaid-{data.leaveTaken.unpaid}</span>
             </div>
           </div>
         </Card>
@@ -55,7 +55,7 @@ const LeaveCards: React.FC<LeaveCardsProps> = ({ data }) => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.5 }}
       >
-        <Card className="bg-[#e1e0ff] dark:bg-gray-500 rounded-xl py-4 px-6 flex justify-between items-center h-full">
+        <Card className="bg-[#e1e0ff] dark:bg-white/[0.03] py-4 px-6 flex justify-between items-center h-full">
           <div>
             <h3 className="text-[28px] font-semibold text-gray-900 dark:text-white">
               {data.leaveRequest.total.toString().padStart(2, "0")}
@@ -65,11 +65,11 @@ const LeaveCards: React.FC<LeaveCardsProps> = ({ data }) => {
           <div className="space-y-2 text-sm">
             <div className="flex items-center gap-2">
               <div className="w-3 h-3 rounded-sm bg-[#6f2cf5]"></div>
-              <span className="text-gray-800">Paid-{data.leaveRequest.paid}</span>
+              <span className="text-gray-400">Paid-{data.leaveRequest.paid}</span>
             </div>
             <div className="flex items-center gap-2">
               <div className="w-3 h-3 rounded-sm bg-[#5a5a5a] dark:bg-amber-50"></div>
-              <span className="text-gray-800">Unpaid-{data.leaveRequest.unpaid}</span>
+              <span className="text-gray-400">Unpaid-{data.leaveRequest.unpaid}</span>
             </div>
           </div>
         </Card>

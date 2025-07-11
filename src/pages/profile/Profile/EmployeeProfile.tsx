@@ -1,21 +1,25 @@
-// import PageMeta from "../../components/common/PageMeta";
-// import PageBreadcrumb from "../../components/common/PageBreadCrumb";
+
 // import DataTable from "../../components/tables/Table/DataTable";
-// import EmployeeCard from "../../components/profile/ProfileCard";
-// import ProfileProgress from "../../components/profile/ProfileProgress";
-// import ProfileTab from "../../components/profile/ProfileTab";
+import EmployeeCard from "../../../components/profile/ProfileCard";
+import ProfileProgress from "../../../components/profile/ProfileProgress";
+import ProfileTab from "../../../components/profile/ProfileTab";
 import PageBreadcrumb from "../../../components/common/PageBreadCrumb";
 import PageMeta from "../../../components/common/PageMeta";
+import TableWrapper from "../../../components/ui/card/TableWrapper";
+
+
 const sampleEmployee = {
   id: "1",
-  name: "Employee Name",
+  name: "Jayesh Puri Goswami",
   phone: "+91 99999 99999",
-  email: "Lorem@gmail.com",
-  department: "Game Development",
+  email: "goswamijayesh@carinasoftlabs.com",
+  department: "Web Development",
   designation: "Designer",
   workShift: "Regular",
   joiningDate: "1-Sep-2021",
+  avatar : '/public/images/user/user-38.jpg'
 };
+
 const EmployeeProfile = () => {
   const handleAddressClick = () => {
     console.log("Address clicked");
@@ -39,7 +43,7 @@ const EmployeeProfile = () => {
         title="React.js Profile Dashboard | TailAdmin - Next.js Admin Dashboard Template"
         description="This is React.js Profile Dashboard page for TailAdmin - React.js Tailwind CSS Admin Dashboard Template"
       />
-      <PageBreadcrumb pageTitle="Profile" endSection="Edit" />
+      <PageBreadcrumb pageTitle="Profile" />
       <div className=" ">
         <div className="flex items-start gap-3 w-full flex-col md:flex-row justify-center md:justify-start">
           <EmployeeCard
@@ -66,9 +70,12 @@ const EmployeeProfile = () => {
             { label: "Address", onClick: handleAddressClick },
             { label: "Address", onClick: handleAddressClick },
             { label: "Address", onClick: handleAddressClick },
-            { label: "Address", onClick: handleAddressClick },
           ]}
         />
+
+        {/* <TableWrapper  >
+          
+        </TableWrapper> */}
 
         {/* <DataTable columns={columns}  /> */}
       </div>

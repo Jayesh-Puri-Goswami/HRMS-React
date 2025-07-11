@@ -30,7 +30,7 @@ const TimeLogCard: React.FC<TimeLogCardProps> = ({ data }) => {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 0.3 }}
     >
-      <Card className="bg-white dark:bg-gray-500/40"  >
+      <Card className="bg-white dark:bg-white/[0.03] dark:border dark:border-white/10"  >
         <div className="flex items-center space-x-2 pb-3 mb-3 border-b border-themeBackgroundColor dark:border-gray-500">
           <div className="w-6 h-6 bg-transparent rounded-full flex items-center justify-center">
             {/* <Clock className="w-4 h-4 text-white" /> */}
@@ -40,7 +40,7 @@ const TimeLogCard: React.FC<TimeLogCardProps> = ({ data }) => {
         </div>
 
         <div className="space-y-6">
-          <div className=" bg-[#e0ebff] dark:bg-gradient-to-r dark:from-gray-500 to-gray-500 rounded-2xl px-[18px] py-[12px] mb-4 ">
+          <div className=" bg-[#e0ebff] dark:bg-white/[0.2] rounded-2xl px-[18px] py-[12px] mb-4 ">
             <h4 className="font-medium text-gray-800 dark:text-white mb-4">Today</h4>
             <div className="grid grid-cols-4 gap-4 border-t-white dark:border-white/50 border-t pt-3">
               <div className="text-center">

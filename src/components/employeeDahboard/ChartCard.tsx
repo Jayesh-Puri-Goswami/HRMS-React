@@ -12,7 +12,7 @@ const ChartCard: React.FC = () => {
       transition={{ duration: 0.5, delay: 0.6 }}
       className="col-span-2"
     >
-      <Card className="bg-white dark:bg-gray-500/40">
+      <Card className="bg-white dark:bg-white/[0.03]">
         {/* <div className="flex items-center space-x-2 mb-6">
           <div className="w-6 h-6 bg-purple-600 rounded-full flex items-center justify-center">
             <Calendar className="w-4 h-4 text-white" />
@@ -54,7 +54,7 @@ const ChartCard: React.FC = () => {
         </div> */}
         <div className="">
           <h2 className="text-lg font-semibold mb-2">Statistics</h2>
-          <div className="flex justify-center items-center h-96 bg-gray-100 dark:bg-gradient-to-r dark:from-gray-500 to-gray-500">
+          <div className="flex justify-center items-center h-[53vh] bg-gray-100 dark:bg-white/[0.2] rounded-2xl">
             {/* Placeholder for chart */}
             <span className="text-gray-500 dark:text-white ">Chart Placeholder</span>
           </div>

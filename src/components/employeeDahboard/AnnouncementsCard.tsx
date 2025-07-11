@@ -1,66 +1,69 @@
-"use client"
-
-import type React from "react"
-import { motion } from "framer-motion"
-import { Megaphone } from "lucide-react"
-import Card from "../ui/card/Card"
+import React, { useState } from "react";
+import Card from "../ui/card/Card";
 
 interface Announcement {
-  title: string
-  startDate: string
-  endDate: string
-  description: string
+  title: string;
+  description: string;
+  date: string;
 }
 
-interface AnnouncementsCardProps {
-  announcements: Announcement[]
-}
+const AnnouncementsCard: React.FC = () => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const announcements: Announcement[] = [
+    {
+      title: "Announcement Title",
+      description:
+        "Lorem ipsum is simply dummy text of the printing and typesetting industry. Lorem ipsum has been the industry's standard dummy text ever since the 1500s. Lorem ipsum is simply dummy text of the printing and typesetting industry.",
+      date: `Today, ${new Date().toLocaleDateString("en-GB", {
+        day: "2-digit",
+        month: "short",
+        year: "numeric",
+      })}`,
+    },
+  ];
 
-const AnnouncementsCard: React.FC<AnnouncementsCardProps> = ({ announcements }) => {
+  const handlePrev = () => {
+    setCurrentIndex((prev) => (prev > 0 ? prev - 1 : announcements.length - 1));
+  };
+
+  const handleNext = () => {
+    setCurrentIndex((prev) => (prev < announcements.length - 1 ? prev + 1 : 0));
+  };
+
+  const currentAnnouncement = announcements[currentIndex];
+
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, delay: 0.7 }}
-    >
-      <Card className="bg-white dark:bg-gray-500/40" >
-        <div className="flex items-center space-x-2 mb-6">
-          <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Announcements</h3>
+    <Card className="bg-white dark:bg-white/[0.03] text-gray-900 dark:text-white border border-gray-200 dark:border-white/10">
+      <div className="flex justify-between items-center mb-3">
+        <h2 className="font-medium mb-2">Announcement</h2>
+        <div className="py- px-4 border rounded-lg text-sm text-gray-600 dark:text-gray-300 mb-2">
+          {currentAnnouncement.date}
         </div>
+      </div>
+      <div className="bg-blue-100 dark:bg-white/[0.2] p-3 rounded mb-4">
+        <h3 className="font-semibold text-blue-800 dark:text-blue-300 mb-1 text-center">
+          {currentAnnouncement.title}
+        </h3>
+        <p className="text-sm text-gray-700 dark:text-gray-300">
+          {currentAnnouncement.description}
+        </p>
+      </div>
+      <div className="flex justify-end gap-5">
+        <button
+          className="bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white px-4 py-0.5 rounded-xl hover:bg-gray-300 dark:hover:bg-gray-600 transition"
+          onClick={handlePrev}
+        >
+          Prev
+        </button>
+        <button
+          className="bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white px-4 py-0.5 rounded-xl hover:bg-gray-300 dark:hover:bg-gray-600 transition"
+          onClick={handleNext}
+        >
+          Next
+        </button>
+      </div>
+    </Card>
+  );
+};
 
-        <div className="overflow-x-auto">
-          <table className="w-full">
-            <thead>
-              <tr className="bg-gray-50 dark:bg-gray-500">
-                <th className="px-4 py-3 text-left text-sm font-medium text-gray-500 dark:text-white">Title</th>
-                <th className="px-4 py-3 text-left text-sm font-medium text-gray-500 dark:text-white">Start Date</th>
-                <th className="px-4 py-3 text-left text-sm font-medium text-gray-500 dark:text-white">End Date</th>
-                <th className="px-4 py-3 text-left text-sm font-medium text-gray-500 dark:text-white">Description</th>
-              </tr>
-            </thead>
-            <tbody>
-              {announcements.length === 0 ? (
-                <tr>
-                  <td colSpan={4} className="px-4 py-8 text-center text-gray-500">
-                    No announcements available
-                  </td>
-                </tr>
-              ) : (
-                announcements.map((announcement, index) => (
-                  <tr key={index} className="border-t border-gray-200">
-                    <td className="px-4 py-3 text-sm text-gray-900">{announcement.title}</td>
-                    <td className="px-4 py-3 text-sm text-gray-900">{announcement.startDate}</td>
-                    <td className="px-4 py-3 text-sm text-gray-900">{announcement.endDate}</td>
-                    <td className="px-4 py-3 text-sm text-gray-900">{announcement.description}</td>
-                  </tr>
-                ))
-              )}
-            </tbody>
-          </table>
-        </div>
-      </Card>
-    </motion.div>
-  )
-}
-
-export default AnnouncementsCard
+export default AnnouncementsCard;

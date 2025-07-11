@@ -4,11 +4,11 @@ import {
   employeeData,
   timeLogData,
   leaveData,
-  meetings,
-  announcements,
+  // meetings,
+  // announcements,
 } from "../../constant/EmployeeDahboard";
 import { useEffect, useState } from "react";
-import SubLoader from "../../components/ui/loader/SubLoader";
+// import SubLoader from "../../components/ui/loader/SubLoader";
 import PageBreadcrumb from "../../components/common/PageBreadCrumb";
 import TotalRatingBadge from "../../components/employeeDahboard/TotalRatingBadge";
 import ProfileCardSkeleton from "../../components/employeeDahboard/ProfileCardSkeleton";
@@ -19,6 +19,9 @@ import LeaveCardsSkeleton from "../../components/employeeDahboard/LeaveCardsSkel
 import LeaveCards from "../../components/employeeDahboard/LeaveCards";
 import ChartCard from "../../components/employeeDahboard/ChartCard";
 import AnnouncementsCard from "../../components/employeeDahboard/AnnouncementsCard";
+import MeetingCard from "../../components/employeeDahboard/MeetingCard";
+import Loader from "../../components/ui/loader/Loader";
+import ChartCardSkeleton from "../../components/employeeDahboard/ChartCardSkeleton";
 
 export default function EmployeeDashboard() {
   const [isLoading, setIsLoading] = useState(true);
@@ -27,24 +30,28 @@ export default function EmployeeDashboard() {
   useEffect(() => {
     // Simulate initial loading
     const timer = setTimeout(() => {
-      setIsLoading(false);
+      setIsDataLoading(false);
       // Simulate data loading
       setTimeout(() => {
-        setIsDataLoading(false);
+        setIsLoading(false);
       }, 1000);
     }, 2000);
 
     return () => clearTimeout(timer);
   }, []);
 
-  if (isLoading) {
-    return <SubLoader />;
-  }
+  // if (isLoading) {
+  //   return <Loader className="h-[30vh]" />;
+  // }
 
   return (
     <>
       <PageMeta title="HRMS | Carnia Softlabs" description="Dashboard" />
-      <PageBreadcrumb pageTitle="Dashboard" />
+      <PageBreadcrumb
+        pageTitle="Dashboard"
+        endSection={<TotalRatingBadge rating={85} />}
+      />
+
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -89,12 +96,12 @@ export default function EmployeeDashboard() {
 
           {/* Meeting Schedule and Announcements */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mt-6">
-            
-            <ChartCard/>
+            {isDataLoading ? <ChartCardSkeleton /> : <ChartCard />}
 
-            <AnnouncementsCard announcements={announcements} />
-            {/* <AnnouncementsCard announcements={announcements} /> */}
-
+            <div className="flex flex-wrap  gap-5">
+              <AnnouncementsCard />
+              <MeetingCard />
+            </div>
           </div>
         </div>
       </motion.div>

@@ -15,7 +15,7 @@ const TotalRatingBadge: React.FC<TotalRatingBadgeProps> = ({ rating }) => {
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.5, delay: 0.2 }}
     >
-      <Badge variant="success" className="bg-[#76bc7d] text-white px-4 py-2 text-lg font-semibold">Total Rating {rating}%</Badge>
+      <Badge variant="success" className="bg-[#76bc7d] dark:bg-green-300/60 rounded-xl text-white px-4 py-2 text-lg font-semibold">Total Rating {rating}%</Badge>
     </motion.div>
   )
 }

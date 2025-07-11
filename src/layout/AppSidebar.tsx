@@ -32,22 +32,22 @@ const navItems: NavItem[] = [
   {
     icon: <CalenderIcon />,
     name: "Attendance",
-    path: "/calendar",
+    path: "/attendance",
   },
   {
     icon: <CalendarSync />,
     name: "Events",
-    path: "/blank",
+    path: "/events",
   },
   {
     name: "Leaves",
     icon: <ListIcon />,
-    path: "/avatars",
+    path: "/leaves",
   },
   {
     name: "Holiday",
     icon: <TreePalm />,
-    path: "/form-elements",
+    path: "/holiday",
   },
 ];
 

@@ -1,25 +1,34 @@
-import React from "react";
-import clsx from "clsx";
-
-interface TabProps {
-  title: string;
-  className?: string;
-  isActive : 'DailyLog' | 'AttendanceLog';
-  setIsActive : (isActive : string) => void
+"use client";
+ 
+const tabs = [
+  "Daily Log",
+  "Attendance Request",
+  "Attendance Details",
+  "Summary",
+];
+ 
+interface SimpleTabsProps {
+  currentTab: string;
+  onTabChange: (tab: string) => void;
+  tabItems : string[];
 }
-
-const Tab: React.FC<TabProps> = ({ title, className,isActive, setIsActive }) => {
+ 
+export default function Tabs({ currentTab, onTabChange,tabItems }: SimpleTabsProps) {
   return (
-    <div
-      className={clsx(
-        `rounded-t-xl px-6 py-4 shadow-sm ${isActive = 'DailyLog' ? 'bg-white' : 'bg-themeBackgroundColor'} `,
-        className
-      )}
-      onClick={setIsActive}
-    >
-      {title}
+    <div className="flex space-x-1 rounded-t-xl px-0.5">
+      {tabItems.map((tab) => (
+        <button
+          key={tab}
+          onClick={() => onTabChange(tab)}
+          className={`px-6 py-2 ml-0   rounded-t-lg font-lg text-sm transition-all duration-300 ease-in-out ${
+            currentTab === tab
+              ? "bg-white md:ml-[2px] dark:bg-white/[0.05] border border-white dark:border dark:border-white/10 text-black dark:text-white transform  scale-105"
+              : "dark:text-white/50  hover:text-gray-800 border border-transparent dark:border dark:border-transparent"
+          }`}
+        >
+          {tab}
+        </button>
+      ))}
     </div>
   );
-};
-
-export default Tab;
+}

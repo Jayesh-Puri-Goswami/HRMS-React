@@ -1,7 +1,10 @@
 import React from "react";
 import "./Loader.css";
+import clsx from "clsx";
 
-const Loader: React.FC = () => {
+import { LoaderProps } from "../../../types/Loader";
+
+const Loader: React.FC <LoaderProps> = ({className}) => {
   return (
     <>
       {/* <div className="fixed inset-0 flex items-center justify-center bg-transparent z-50">
@@ -15,7 +18,7 @@ const Loader: React.FC = () => {
       </div>
     </div> */}
 
-      <div className="min-h-screen bg-transparent">
+      <div className={clsx('min-h-screen bg-transparent',className)}>
         <div className="">
           <img className="w-15 h-15 absolute -translate-1/2 top-1/2 left-[50%] z-50 " src="/public/images/logo/CSL-Monogram.svg" alt="" />
         </div>

@@ -1,11 +1,11 @@
 import { Loader as LoadingIcon } from "lucide-react";
-import { subLoaderProps } from "../../../types/Loader";
+import { SubLoaderProps } from "../../../types/Loader";
 
 function SubLoader({
   size = 24,
   color = "text-indigo-600",
   text = "loading ...",
-}: subLoaderProps) {
+}: SubLoaderProps) {
   return (
     <div className="min-h-[70vh] flex flex-col items-center justify-center">
       <LoadingIcon
