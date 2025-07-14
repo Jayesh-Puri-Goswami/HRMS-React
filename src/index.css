@@ -6,26 +6,23 @@ layer(base);
 @custom-variant dark (&:is(.dark *));
 
 @theme {
-
   /* Custom CSS Class Starts */
-  --color-themeBackgroundColor : #e8edf2 !important;
-  --color-themeBackgroundColorDark : #000000 !important;
+  --color-themeBackgroundColor: #e8edf2 !important;
+  --color-themeBackgroundColorDark: #000000 !important;
 
-  --color-themeDisableIconColor : #5a5a5a !important;
+  --color-themeDisableIconColor: #5a5a5a !important;
 
+  --color-themeBorderColor: #ffffff !important;
+  --color-themeBorderColorDark: #000000 !important;
 
-  --color-themeBorderColor : #ffffff !important;
-  --color-themeBorderColorDark : #000000 !important;
+  --color-themeBlueLight: #c9ddef !important;
+  --color-themeBlue: #3a648a !important;
 
-  --color-themeBlueLight : #c9ddef !important;
-  --color-themeBlue : #3a648a !important;
+  --color-themeSidebarBg: #e8edf2;
+  --color-themeSidebarBgDark: #e8edf2;
 
-  --color-themeSidebarBg : #e8edf2;
-  --color-themeSidebarBgDark : #e8edf2;
-
-
-  --color-themeGradientColorFrom : #534caa;
-  --color-themeGradientColorTo : #403a8a;
+  --color-themeGradientColorFrom: #534caa;
+  --color-themeGradientColorTo: #403a8a;
   /* Custom CSS Class Ends */
   --font-*: initial;
   --font-outfit: Outfit, Poppins;
@@ -88,14 +85,13 @@ layer(base);
   --color-blue-light-900: #0b4a6f;
   --color-blue-light-950: #062c41;
 
-
   --color-gray-25: #fcfcfd;
   --color-gray-50: #f9fafb;
   --color-gray-100: #f2f4f7;
   --color-gray-200: #e4e7ec;
   --color-gray-300: #d0d5dd;
   --color-gray-400: #a4a4a4;
-  --color-gray-500: #5a5a5a ;
+  --color-gray-500: #5a5a5a;
   --color-gray-600: #475467;
   --color-gray-700: #344054;
   --color-gray-800: #1d2939;
@@ -211,7 +207,33 @@ layer(base);
     @apply relative font-normal font-outfit z-1 bg-themeBackgroundColor dark:bg-themeBackgroundColorDark;
   }
 }
+/* Scrollbar Starts */
+body {
+  --sb-track-color: #e8edf200;
+  --sb-thumb-color: #514ba986;
+  --sb-size: 10px;
+}
 
+body::-webkit-scrollbar {
+  width: var(--sb-size);
+}
+
+body::-webkit-scrollbar-track {
+  background: var(--sb-track-color);
+  border-radius: 10px;
+}
+
+body::-webkit-scrollbar-thumb {
+  background: var(--sb-thumb-color);
+  border-radius: 10px;
+}
+
+@supports not selector(::-webkit-scrollbar) {
+  body {
+    scrollbar-color: var(--sb-thumb-color) var(--sb-track-color);
+  }
+}
+/* Scrollbar Ends */
 
 @utility menu-item {
   @apply relative flex items-center w-full gap-3 px-3 py-2 font-medium rounded-xl text-theme-sm;
@@ -296,11 +318,11 @@ layer(base);
   }
 
   &::-webkit-scrollbar-thumb {
-    @apply bg-gray-200 rounded-full dark:bg-gray-700;
+    @apply bg-[#514ba986] rounded-full dark:bg-indigo-700;
   }
 }
 .dark .custom-scrollbar::-webkit-scrollbar-thumb {
-  background-color: #344054;
+  background-color: #514ba986;
 }
 
 @layer utilities {
@@ -800,9 +822,6 @@ span.flatpickr-weekday,
   @apply opacity-100;
 }
 
-
-
-
 /*  Button starts */
 #checkbox {
   display: none;
@@ -825,47 +844,48 @@ span.flatpickr-weekday,
   border-radius: calc(4px / 2);
   color: inherit;
   opacity: 1;
-  transition: none 0.35s cubic-bezier(.5,-0.35,.35,1.5) 0s;
+  transition: none 0.35s cubic-bezier(0.5, -0.35, 0.35, 1.5) 0s;
 }
 
 /***** Collapse Animation *****/
 
 .bar--top {
-  bottom: calc(50% + 11px + 4px/ 2);
-  transition-property: bottom,margin,transform;
-  transition-delay: calc(0s + 0.10s),0s,0s;
+  bottom: calc(50% + 11px + 4px / 2);
+  transition-property: bottom, margin, transform;
+  transition-delay: calc(0s + 0.1s), 0s, 0s;
 }
 
 .bar--middle {
-  top: calc(50% - 4px/ 2);
-  transition-property: top,opacity;
-  transition-duration: 0.35s,0s;
-  transition-delay: calc(0s + 0.10s * 1.3),calc(0s + 0.10s * 1.3);
+  top: calc(50% - 4px / 2);
+  transition-property: top, opacity;
+  transition-duration: 0.35s, 0s;
+  transition-delay: calc(0s + 0.1s * 1.3), calc(0s + 0.1s * 1.3);
 }
 
 .bar--bottom {
-  top: calc(50% + 11px + 4px/ 2);
-  transition-property: top,transform;
+  top: calc(50% + 11px + 4px / 2);
+  transition-property: top, transform;
   transition-delay: 0s;
 }
 
 #checkbox:checked + .toggle .bar--top {
   bottom: calc(50% - 11px - 4px);
-  margin-bottom: calc(11px + 4px/ 2);
+  margin-bottom: calc(11px + 4px / 2);
   transform: rotate(45deg);
-  transition-delay: calc(0s + 0.10s * .3),calc(0s + 0.10s * 1.3),calc(0s + 0.10s * 1.3);
+  transition-delay: calc(0s + 0.1s * 0.3), calc(0s + 0.1s * 1.3),
+    calc(0s + 0.1s * 1.3);
 }
 
 #checkbox:checked + .toggle .bar--middle {
   top: calc(50% + 11px);
   opacity: 0;
-  transition-duration: 0.35s,0s;
-  transition-delay: 0s,calc(0s + 0.10s);
+  transition-duration: 0.35s, 0s;
+  transition-delay: 0s, calc(0s + 0.1s);
 }
 
 #checkbox:checked + .toggle .bar--bottom {
-  top: calc(50% - 4px/ 2);
+  top: calc(50% - 4px / 2);
   transform: rotate(-45deg);
-  transition-delay: calc(0s + 0.10s * 1.3),calc(0s + 0.10s * 1.3);
+  transition-delay: calc(0s + 0.1s * 1.3), calc(0s + 0.1s * 1.3);
 }
 /* Theme Toggler Button ends */

@@ -4,17 +4,7 @@ import React from "react";
 import clsx from "clsx";
 import { Calendar, Clock, Briefcase, Image } from "lucide-react";
 
-interface EmployeeData {
-  id: string;
-  name: string;
-  phone: string;
-  email: string;
-  department: string;
-  designation: string;
-  workShift: string;
-  joiningDate: string;
-  avatar?: string;
-}
+
 interface EmployeeCardProps {
   employee: {
     id: string;

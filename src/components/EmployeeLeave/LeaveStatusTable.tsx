@@ -1,7 +1,6 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import StatusBadge from "../ui/badge/StatusBadge";
 import DataTable from "../ui/datatable/DataTable";
-import Badge from "../ui/badge/Badge";
 
 const attendanceData: AttendanceRow[] = [
   {

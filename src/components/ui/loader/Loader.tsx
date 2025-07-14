@@ -20,7 +20,7 @@ const Loader: React.FC <LoaderProps> = ({className}) => {
 
       <div className={clsx('min-h-screen bg-transparent',className)}>
         <div className="">
-          <img className="w-15 h-15 absolute -translate-1/2 top-1/2 left-[50%] z-50 " src="/public/images/logo/CSL-Monogram.svg" alt="" />
+          <img className="w-15 h-15 absolute -translate-1/2 top-1/2 left-[50%] z-50 " src="/images/logo/CSL-Monogram.svg" alt="" />
         </div>
         <div className="LoaderContainer absolute ">
         <span></span>

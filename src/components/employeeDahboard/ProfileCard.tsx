@@ -32,7 +32,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
               <div className=" w-[100px] h-[100px]  md:w-[150px] md:h-[150px] lg:w-[150px] lg:h-[150px] rounded-full overflow-hidden border-[0.6rem] border-themeBackgroundColor dark:border-black">
                 {profileImage ? (
                   <img
-                    src={profileImage || "/public/images/user/owner.jpg"}
+                    src={profileImage || "/images/user/owner.jpg"}
                     alt={name}
                     className="w-full h-full object-cover"
                   />

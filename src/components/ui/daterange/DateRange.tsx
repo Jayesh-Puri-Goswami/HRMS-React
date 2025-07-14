@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import Button from "../button/Button";
 
 export default function Header() {
   const [currentDate, setCurrentDate] = useState("June, 2025");
@@ -15,11 +14,7 @@ export default function Header() {
     "Last Year",
     "Total",
   ];
-
-  const handlePrevious = () => {
-    // Logic to navigate to previous month/period
-    console.log("Navigate to previous period");
-  };
+  
 
   const handleNext = () => {
     // Logic to navigate to next month/period

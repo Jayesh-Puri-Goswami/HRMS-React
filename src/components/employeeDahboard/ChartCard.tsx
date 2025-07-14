@@ -1,6 +1,5 @@
 import type React from "react";
 import { motion } from "framer-motion";
-import { Calendar } from "lucide-react";
 import Card from "../ui/card/Card";
 
 
@@ -62,7 +61,6 @@ const ChartCard: React.FC = () => {
             <span className="text-gray-500 dark:text-white">Productivity</span>
             <span className="text-gray-500 dark:text-white">Availability</span>
             <span className="text-gray-500 dark:text-white">Punctuality</span>
-            <span className="text-gray-500 dark:text-white">Lorem</span>
             <span className="text-gray-500 dark:text-white">Lorem</span>
           </div>
           <div className="mt-2 text-gray-500 dark:text-gray-400">Total Rating: 85%</div>

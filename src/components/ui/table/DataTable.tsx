@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown } from 'lucide-react';
@@ -118,7 +119,7 @@ function DataTable<T extends object>({
                         )}
                       </motion.tr>
                     ))
-                : data.map((row, index) => (
+                : data.map((row : any , index) => (
                     <motion.tr
                       key={getRowKey(row, index)}
                       initial={{ opacity: 0 }}

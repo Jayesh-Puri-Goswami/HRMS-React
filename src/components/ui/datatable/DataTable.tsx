@@ -3,9 +3,7 @@
 import { FolderPen } from "lucide-react";
 // import Button from "../ui/button/Button";
 import SearchBar from "../searchbar/SearchBar";
-import StatusBadge from "../badge/StatusBadge";
 import Button from "../button/Button";
-import { ReactElement, ReactNode } from "react";
 
 type TableColumn<T> = {
   key: keyof T;

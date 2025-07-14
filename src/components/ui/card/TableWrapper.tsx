@@ -22,10 +22,6 @@ interface TableWrapperProps<T> {
 function TableWrapper<T extends object>({
   title,
   actionButton,
-  showBorder,
-  showShadow,
-  padding,
-  animate,
   columns,
   data,
   loading = false,

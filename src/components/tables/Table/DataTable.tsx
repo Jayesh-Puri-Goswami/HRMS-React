@@ -128,7 +128,7 @@ function DataTable<T extends object>({
                     className="hover:bg-slate-50 dark:hover:bg-gray-800"
                   >
                     {columns.map((col, i) => (
-                      <td key={i} className="px-6 py-4 whitespace-nowrap">
+                      <td key={i} className={`px-6 py-4 whitespace-nowrap ${col}`}>
                         <div className="h-4 w-24 bg-slate-200 dark:bg-gray-700 rounded animate-pulse" />
                       </td>
                     ))}

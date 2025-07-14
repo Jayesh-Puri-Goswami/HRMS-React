@@ -27,7 +27,6 @@ const defaultItems: RatingItem[] = [
 ];
 
 const ProfileProgress: React.FC<ProfileProgressProps> = ({
-  totalRating = defaultTotalRating,
   items = defaultItems,
   className = "",
 }) => {

@@ -22,6 +22,8 @@ import AnnouncementsCard from "../../components/employeeDahboard/AnnouncementsCa
 import MeetingCard from "../../components/employeeDahboard/MeetingCard";
 import Loader from "../../components/ui/loader/Loader";
 import ChartCardSkeleton from "../../components/employeeDahboard/ChartCardSkeleton";
+import AnnouncementsCardSkeleton from "../../components/employeeDahboard/AnnouncementsCardSkeleton";
+import MeetingCardSkeleton from "../../components/employeeDahboard/MeetingCardSkeleton";
 
 export default function EmployeeDashboard() {
   const [isLoading, setIsLoading] = useState(true);
@@ -99,8 +101,9 @@ export default function EmployeeDashboard() {
             {isDataLoading ? <ChartCardSkeleton /> : <ChartCard />}
 
             <div className="flex flex-wrap  gap-5">
-              <AnnouncementsCard />
-              <MeetingCard />
+              {isDataLoading ? <AnnouncementsCardSkeleton /> : <AnnouncementsCard />}
+              
+              {isDataLoading ? <MeetingCardSkeleton /> : <MeetingCard />}
             </div>
           </div>
         </div>

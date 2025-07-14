@@ -34,7 +34,7 @@ const TimeLogCard: React.FC<TimeLogCardProps> = ({ data }) => {
         <div className="flex items-center space-x-2 pb-3 mb-3 border-b border-themeBackgroundColor dark:border-gray-500">
           <div className="w-6 h-6 bg-transparent rounded-full flex items-center justify-center">
             {/* <Clock className="w-4 h-4 text-white" /> */}
-            <img src="/public/images/svg/CircleFram.svg" alt="" />
+            <img src="/images/svg/CircleFram.svg" alt="" />
           </div>
           <h3 className="text-lg font-medium text-gray-900 dark:text-white">Time Log</h3>
         </div>

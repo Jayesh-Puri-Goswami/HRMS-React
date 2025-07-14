@@ -5,7 +5,7 @@ export const employeeData = {
   punchOutTime: "00:00 am",
   breakTime: "00:00 am",
   totalRating: 85,
-  profileImage: '/public/images/user/user-38.jpg',
+  profileImage: '/images/user/user-38.jpg',
 };
 
 export const timeLogData = {
