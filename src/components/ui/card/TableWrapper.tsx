@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react";
 import DataTable from "../../tables/Table/DataTable";
-import TableCard from "";
+import TableCard from "./TableCard";
 import { motion } from "framer-motion";
 
 interface TableWrapperProps<T> {
