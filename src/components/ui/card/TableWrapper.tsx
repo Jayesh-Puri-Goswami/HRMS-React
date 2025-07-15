@@ -22,6 +22,10 @@ interface TableWrapperProps<T> {
 function TableWrapper<T extends object>({
   title,
   actionButton,
+  showBorder,
+  showShadow,
+  padding,
+  animate,
   columns,
   data,
   loading = false,
@@ -39,25 +43,32 @@ function TableWrapper<T extends object>({
       <div className="min-h-[20rem] flex flex-col gap-4">
         {(title || actionButton) && (
           <TableCard
-            title={title}
-            // actionButton={actionButton}
+            title={title || "No Title"}
+            actionButton={actionButton}
             showBorder={false}
             showShadow={false}
             padding="none"
             animate={false}
           />
         )}
-        {children && <div className="flex flex-col gap-2 w-full overflow-x-auto">{children}</div>}
-        {columns && data && getRowKey && (
-          <div className="w-full overflow-x-auto">
-            <DataTable
-              columns={columns}
-              data={data}
-              loading={loading}
-              getRowKey={getRowKey}
-              onRowClick={onRowClick}
-            />
+        {children ? (
+          <div className="flex flex-col gap-2 w-full overflow-x-auto">
+            {children}
           </div>
+        ) : (
+          columns &&
+          data &&
+          getRowKey && (
+            <div className="w-full overflow-x-auto">
+              <DataTable
+                columns={columns}
+                data={data}
+                loading={loading}
+                getRowKey={getRowKey}
+                onRowClick={onRowClick}
+              />
+            </div>
+          )
         )}
       </div>
     </motion.div>

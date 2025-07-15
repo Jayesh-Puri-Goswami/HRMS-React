@@ -6,6 +6,9 @@ import NotificationDropdown from "../components/header/NotificationDropdown";
 import UserDropdown from "../components/header/UserDropdown";
 import CheckInButton from "../components/header/CheckInButton";
 
+import { useSelector } from "react-redux";
+
+
 const iconVariants = {
   initial: { opacity: 0, scale: 0.8, rotate: -90 },
   animate: { opacity: 1, scale: 1, rotate: 0 },
@@ -14,7 +17,8 @@ const iconVariants = {
 
 const AppHeader: React.FC = () => {
 
-  const currentUser = 'employee'
+  const currentUser = useSelector((state: any) => state.auth.user);
+  
 
   const [isApplicationMenuOpen, setApplicationMenuOpen] = useState(false);
 
@@ -86,7 +90,7 @@ const AppHeader: React.FC = () => {
           </AnimatePresence>
 
           <div className="">
-            <h1 className="text-black dark:text-white">Employee Dashboard</h1>
+            <h1 className="text-black dark:text-white"> {currentUser?.role || 'User'} Dashboard</h1>
           </div>
 
           <button

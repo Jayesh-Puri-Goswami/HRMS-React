@@ -1,148 +1,179 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import React from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronDown } from 'lucide-react';
-import { useNavigate } from 'react-router';
-
+import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { ChevronDown } from "lucide-react";
+import clsx from "clsx";
+// import TableCard from "../../ui/card/TableCard";
 
 export interface DataTableColumn<T> {
   key: keyof T;
   label: string;
   sortable?: boolean;
-  render?: (row: T, index: any) => React.ReactNode;
+  render?: (row: T, index: number) => React.ReactNode;
   className?: string;
-  _id?: string;
 }
 
 export interface DataTableProps<T> {
   columns: DataTableColumn<T>[];
   data: T[];
-  loading: boolean;
-  sortField: keyof T;
-  sortDirection: 'asc' | 'desc';
-  onSort: (field: keyof T) => void;
-  page: number;
-  totalPages: number;
-  onPageChange: (page: number) => void;
-  itemsPerPage: number;
-  onItemsPerPageChange: (n: number) => void;
+  loading?: boolean;
   skeletonRows?: number;
   statusToggle?: (row: T) => React.ReactNode;
   getRowKey: (row: T, index: number) => string;
-  path?: string;
   rowClassName?: string;
+  onRowClick?: (row: T) => void;
+  title?: string | React.ReactNode;
+  actionButton?: React.ReactNode;
 }
 
 function DataTable<T extends object>({
   columns,
   data,
-  loading,
-  sortField,
-  sortDirection,
-  onSort,
-  page,
-  totalPages,
-  onPageChange,
-  itemsPerPage,
-  onItemsPerPageChange,
+  loading = false,
   skeletonRows = 5,
   statusToggle,
   getRowKey,
-  path = '',
   rowClassName,
+  onRowClick,
 }: DataTableProps<T>) {
+  const [sortField, setSortField] = useState<keyof T | null>(null);
+  const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
+
+  const onSort = (field: keyof T) => {
+    if (sortField === field) {
+      setSortDirection(sortDirection === "asc" ? "desc" : "asc");
+    } else {
+      setSortField(field);
+      setSortDirection("asc");
+    }
+  };
+
   const SortIcon = ({ field }: { field: keyof T }) => (
     <ChevronDown
       size={16}
-      className={`ml-1 transition-transform ${
+      className={clsx(
+        "ml-1 transition-transform duration-200",
         sortField === field
-          ? sortDirection === 'desc'
-            ? 'transform rotate-180'
-            : ''
-          : 'opacity-0 group-hover:opacity-100'
-      }`}
+          ? sortDirection === "desc"
+            ? "transform rotate-180"
+            : ""
+          : "opacity-0 group-hover:opacity-100"
+      )}
     />
   );
 
-  const navigate = useNavigate();
+  // Sort data if sortField is set
+  const sortedData = React.useMemo(() => {
+    if (!sortField) return data;
+
+    return [...data].sort((a, b) => {
+      const aValue = a[sortField];
+      const bValue = b[sortField];
+
+      if (aValue < bValue) return sortDirection === "asc" ? -1 : 1;
+      if (aValue > bValue) return sortDirection === "asc" ? 1 : -1;
+      return 0;
+    });
+  }, [data, sortField, sortDirection]);
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      className="bg-white rounded-xl shadow-md "
-    >
-      <div className="overflow-x-auto min-h-[20rem] rounded-t-xl">
-        <table className="min-w-full divide-y divide-slate-200">
-          <thead className="bg-themeBackgroundColor text-white rounded-t-xl">
-            <tr>
-              {columns.map((col) => (
-                <th
-                  key={String(col.key)}
-                  scope="col"
-                  className={`px-6 py-3 text-left text-xs font-medium uppercase tracking-wider cursor-pointer group ${
-                    col.className || ''
-                  }`}
-                  onClick={col.sortable ? () => onSort(col.key) : undefined}
-                >
-                  <div className="flex items-center">
-                    {col.label}
-                    {col.sortable && <SortIcon field={col.key} />}
-                  </div>
-                </th>
-              ))}
-              {statusToggle && <th className="px-6 py-3"></th>}
-            </tr>
-          </thead>
-          <tbody className="bg-white divide-y divide-slate-200">
-            <AnimatePresence>
-              {loading
-                ? Array(skeletonRows)
-                    .fill(0)
-                    .map((_, index) => (
-                      <motion.tr
-                        key={index}
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ duration: 0.2, delay: index * 0.05 }}
-                        className="hover:bg-slate-50"
-                      >
-                        {columns.map((col, i) => (
-                          <td key={i} className="px-6 py-4 whitespace-nowrap ">
-                            <div className="h-4 w-24 bg-slate-200 rounded animate-pulse"></div>
-                          </td>
-                        ))}
-                        {statusToggle && (
-                          <td className="px-6 py-4 whitespace-nowrap">
-                            <div className="h-6 w-16 bg-slate-200 rounded-full animate-pulse"></div>
-                          </td>
-                        )}
-                      </motion.tr>
-                    ))
-                : data.map((row : any , index) => (
+    <>
+      <table className="min-w-full border-t-0 rounded-t-2xl border-separate border-spacing-0 mt-3 border dark:border-t dark:rounded-t-2xl dark:border-gray-800">
+        <thead className="bg-themeBackgroundColor dark:bg-themeBackgroundColorDark text-gray-500 capitalize">
+          <motion.tr
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.15, duration: 0.2 }}
+            className="rounded-t-2xl"
+          >
+            {columns.map((col, idx) => (
+              <th
+                key={String(col.key)}
+                scope="col"
+                className={clsx(
+                  "px-6 py-3 text-left text-xs font-medium tracking-wider cursor-pointer group bg-themeBackgroundColor dark:bg-gray-500 dark:text-white text-gray-500 capitalize",
+                  idx === 0 && "rounded-tl-xl",
+                  idx === columns.length - 1 && "rounded-tr-2xl"
+                )}
+                onClick={col.sortable ? () => onSort(col.key) : undefined}
+              >
+                <div className="flex items-center">
+                  {col.label}
+                  {col.sortable && <SortIcon field={col.key} />}
+                </div>
+              </th>
+            ))}
+            {statusToggle && (
+              <th className="px-6 py-3 rounded-tr-2xl">
+                <span className="text-xs font-medium">Actions</span>
+              </th>
+            )}
+          </motion.tr>
+        </thead>
+        <tbody className="bg-white text-sm dark:bg-black dark:text-white text-gray-500">
+          <AnimatePresence mode="wait">
+            {loading
+              ? // Loading skeleton
+                Array(skeletonRows)
+                  .fill(0)
+                  .map((_, index) => (
+                    <motion.tr
+                      key={`skeleton-${index}`}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{
+                        duration: 0.2,
+                        delay: index * 0.05,
+                      }}
+                      className="hover:bg-slate-50 dark:hover:bg-gray-800"
+                    >
+                      {columns.map((col, i) => (
+                        <td key={i} className="px-6 py-4 whitespace-nowrap">
+                          <div className="h-4 w-24 bg-slate-200 dark:bg-gray-700 rounded animate-pulse" />
+                        </td>
+                      ))}
+                      {statusToggle && (
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="h-6 w-16 bg-slate-200 dark:bg-gray-700 rounded-full animate-pulse" />
+                        </td>
+                      )}
+                    </motion.tr>
+                  ))
+              : // Actual data rows
+                sortedData.map((row, index) => {
+                  const isLast = index === sortedData.length - 1;
+                  return (
                     <motion.tr
                       key={getRowKey(row, index)}
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       exit={{ opacity: 0 }}
-                      transition={{ duration: 0.1, delay: index * 0.05 }}
-                      className="hover:bg-slate-50"
+                      transition={{
+                        duration: 0.2,
+                        delay: index * 0.03,
+                      }}
+                      whileHover={{
+                        backgroundColor: "rgba(248, 250, 252, 0.8)",
+                        transition: { duration: 0.15 },
+                      }}
+                      className={clsx(
+                        "cursor-pointer transition-colors",
+                        !isLast &&
+                          "border-b border-slate-200 dark:border-gray-700"
+                      )}
+                      onClick={() => onRowClick?.(row)}
                     >
                       {columns.map((col, i) => (
                         <td
                           key={i}
-                          onClick={() => {
-                            if (path !== '') {
-                              navigate(`${path}${row._id}`);
-                            }
-                          }}
-                          className={`px-6 py-4 flex-row items-center justify-center ${
-                            rowClassName ? rowClassName : 'whitespace-nowrap'
-                          } `}
+                          className={clsx(
+                            "px-6 py-4",
+                            rowClassName ? rowClassName : "whitespace-nowrap"
+                          )}
                         >
                           {col.render
                             ? col.render(row, index)
-                            : String(row[col.key] ?? '')}
+                            : String(row[col.key] ?? "")}
                         </td>
                       ))}
                       {statusToggle && (
@@ -151,61 +182,13 @@ function DataTable<T extends object>({
                         </td>
                       )}
                     </motion.tr>
-                  ))}
-            </AnimatePresence>
-          </tbody>
-        </table>
-      </div>
-      {/* Pagination */}
-      {totalPages > 1 && (
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mt-6 px-4 pb-4">
-          <div className="w-full sm:w-auto">
-            <select
-              id="itemsPerPage"
-              value={itemsPerPage}
-              onChange={(e) => onItemsPerPageChange(Number(e.target.value))}
-              className="w-full sm:w-auto p-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-slate-800 rounded-md text-sm"
-            >
-              {[10, 15, 25, 50].map((n) => (
-                <option key={n} value={n}>
-                  {n} per page
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <div className="flex flex-wrap gap-4 items-center justify-center sm:justify-end w-full sm:w-auto">
-            <motion.button
-              whileHover={{ scale: 1 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => onPageChange(Math.max(page - 1, 1))}
-              disabled={page === 1}
-              className="px-4 py-2 bg-white border border-indigo-600 text-indigo-600 rounded-lg disabled:opacity-50"
-            >
-              Previous
-            </motion.button>
-
-            <span className="text-sm text-gray-600 dark:text-gray-300">
-              Page {page} of {totalPages}
-            </span>
-
-            <motion.button
-              whileHover={{ scale: 1 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => onPageChange(Math.min(page + 1, totalPages))}
-              disabled={page === totalPages}
-              className="px-4 py-2 bg-white border border-indigo-600 text-indigo-600 rounded-lg disabled:opacity-50"
-            >
-              Next
-            </motion.button>
-          </div>
-        </div>
-      )}
-    </motion.div>
+                  );
+                })}
+          </AnimatePresence>
+        </tbody>
+      </table>
+    </>
   );
 }
 
 export default DataTable;
-
-
-

@@ -1,5 +1,5 @@
 import Calendar from "../ui/calender/Calender";
-
+ 
 function AttendanceDetail() {
   const stats = [
     { label: "Work", value: "120:30 hr" },
@@ -10,24 +10,27 @@ function AttendanceDetail() {
   ];
   return (
     <>
-      <div className="flex flex-col md:flex-row justify-between items-center w-full gap-5">
-        <div className="w-1/2">
-            <Calendar />
+      <div className="flex flex-col-reverse lg:flex-row items-start lg:items-center justify-between gap-6 w-full">
+        {/* Calendar Section */}
+        <div className="w-full lg:w-1/2">
+          <Calendar />
         </div>
-
-        <div className=" w-full md:w-1/2  flex justify-center items-center">
-          <div className="bg-white dark:bg-white/[0.03] rounded-2xl shadow-sm border border-gray-200 dark:border-white/10 p-6 w-full max-w-xs">
+ 
+        {/* Stats Card */}
+        <div className="w-full lg:w-1/2 flex justify-center">
+          <div className="bg-white dark:bg-white/[0.03] rounded-2xl shadow-sm border border-gray-200 dark:border-white/10 p-6 w-full max-w-md">
             <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-6">
               Total
             </h2>
+ 
             <div className="space-y-4">
               {stats.map((item, idx) => (
                 <div
                   key={idx}
-                  className="flex items-center justify-between text-sm font-medium text-gray-700 dark:text-gray-300"
+                  className="grid grid-cols-2 items-center text-sm font-medium text-gray-700 dark:text-gray-300"
                 >
                   <span>{item.label}</span>
-                  <span>{item.value}</span>
+                  <span className="text-right">{item.value}</span>
                 </div>
               ))}
             </div>
@@ -37,5 +40,5 @@ function AttendanceDetail() {
     </>
   );
 }
-
+ 
 export default AttendanceDetail;

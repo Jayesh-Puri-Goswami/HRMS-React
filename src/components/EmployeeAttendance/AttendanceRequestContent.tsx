@@ -1,5 +1,6 @@
 import StatusBadge from "../ui/badge/StatusBadge";
 import DataTable from "../ui/datatable/DataTable";
+import { Badge, FolderPen, FileCheck2 } from "lucide-react";
 
 const attendanceData: AttendanceRow[] = [
   {
@@ -8,7 +9,8 @@ const attendanceData: AttendanceRow[] = [
     avatar: "https://randomuser.me/api/portraits/men/1.jpg",
     inTime: "09:00 AM",
     outTime: "06:00 PM",
-    status: "On time",
+    request: "View",
+    status: "Pending",
     statusType: "success",
     break: "1h",
     working: "8h",
@@ -21,7 +23,8 @@ const attendanceData: AttendanceRow[] = [
     avatar: "https://randomuser.me/api/portraits/men/1.jpg",
     inTime: "09:00 AM",
     outTime: "06:00 PM",
-    status: "On time",
+    request: "View",
+    status: "Pending",
     statusType: "success",
     break: "1h",
     working: "8h",
@@ -34,7 +37,8 @@ const attendanceData: AttendanceRow[] = [
     avatar: "https://randomuser.me/api/portraits/men/1.jpg",
     inTime: "09:00 AM",
     outTime: "06:00 PM",
-    status: "On time",
+    request: "View",
+    status: "Pending",
     statusType: "success",
     break: "1h",
     working: "8h",
@@ -47,7 +51,8 @@ const attendanceData: AttendanceRow[] = [
     avatar: "https://randomuser.me/api/portraits/men/1.jpg",
     inTime: "09:00 AM",
     outTime: "06:00 PM",
-    status: "On time",
+    request: "View",
+    status: "Pending",
     statusType: "success",
     break: "1h",
     working: "8h",
@@ -60,7 +65,8 @@ const attendanceData: AttendanceRow[] = [
     avatar: "https://randomuser.me/api/portraits/men/1.jpg",
     inTime: "09:00 AM",
     outTime: "06:00 PM",
-    status: "Present",
+    request: "View",
+    status: "Pending",
     statusType: "success",
     break: "1h",
     working: "8h",
@@ -73,7 +79,8 @@ const attendanceData: AttendanceRow[] = [
     avatar: "https://randomuser.me/api/portraits/men/1.jpg",
     inTime: "09:00 AM",
     outTime: "06:00 PM",
-    status: "Late",
+    request: "View",
+    status: "Pending",
     statusType: "info",
     break: "1h",
     working: "8h",
@@ -87,12 +94,12 @@ interface AttendanceRow {
   avatar?: string;
   inTime: string;
   outTime: string;
+  request?: string;
   status: string;
   statusType: "info" | "success" | "error";
   break: string;
   working: string;
   entry: string;
-  request?: string
 }
 
 interface ColumnConfig<T> {
@@ -121,28 +128,49 @@ const columns: ColumnConfig<AttendanceRow>[] = [
   },
   { key: "inTime", header: "Punched In" },
   { key: "outTime", header: "Punched Out" },
+
+  // {
+  //   key: "request",
+  //   header: "Request",
+
+  // },
+
   {
-    key: "status",
-    header: "Request ",
+    key: "request",
+    header: "Request",
     render: (row: AttendanceRow) => (
-      <StatusBadge label={row.request}  />
+      <div className="flex items-center gap-2">
+        <span>{row.request}</span>
+        <button>
+          <FileCheck2 className="h-4 w-4 text-[#3A648A] dark:text-white" />
+        </button>
+      </div>
     ),
   },
+
   { key: "break", header: "Break Time" },
   { key: "working", header: "Total Hours" },
+
   {
-    key: "entry",
-    header: "Entry",
-    render: (row: AttendanceRow) => (
-      <StatusBadge label={row.entry} status="info" />
-    ),
+    key: "status",
+    header: "Status ",
+    render: (row: AttendanceRow) => <StatusBadge label={row.status} />,
   },
+  // {
+  //   key: "entry",
+  //   header: "Entry",
+  //   render: (row: AttendanceRow) => (
+  //     <StatusBadge label={row.entry} status="info" />
+  //   ),
+  // },
 ];
 
 export default function AttendancePage() {
   return (
-    <div className="">
+    <div className="dark:text-white">
       <DataTable data={attendanceData} columns={columns} />
     </div>
   );
 }
+
+

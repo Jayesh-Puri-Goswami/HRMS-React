@@ -10,8 +10,8 @@ import AttendanceSummary from "../../components/EmployeeAttendance/AttendanceSum
 
 const tabItems = [
   {
-    id: "daily-log",
-    label: "Daily Log",
+    id: "monthly-log",
+    label: "Monthly Log",
     content: <AttendanceContent />,
   },
   {
@@ -32,7 +32,7 @@ const tabItems = [
 ];
 
 export default function EmployeeAttendance() {
-  const [currentTab, setCurrentTab] = useState("daily-log");
+  const [currentTab, setCurrentTab] = useState("monthly-log");
 
   // Get the content of the current tab
   const activeTab = tabItems.find((tab) => tab.id === currentTab);
@@ -43,8 +43,8 @@ export default function EmployeeAttendance() {
       <PageBreadcrumb pageTitle="Attendance" />
       <Tabs
         tabItems={[
-          "Daily Log",
-          "Attendance Request",
+          "Monthly Log",
+          // "Attendance Request",
           "Attendance Details",
           "Summary",
         ]}
@@ -57,8 +57,10 @@ export default function EmployeeAttendance() {
 
       <Card
         className={`dark:border-white/10  bg-white dark:bg-white/[0.03] ${
-          activeTab?.label == "Daily Log" ? "rounded-tl-none" : "rounded-tl-3xl"
-        } rounded-b-3xl rounded-tr-3xl `}
+          activeTab?.label == tabItems[0].label ? "rounded-tl-none " : "rounded-tl-none sm:rounded-tl-3xl"
+        } ${
+          activeTab?.label == tabItems[tabItems?.length - 1].label ? "rounded-tr-none sm:rounded-tr-3xl" : "rounded-tr-3xl"
+        } rounded-b-3xl rounded-tr-none sm:rounded-tr-3xl `}
       >
         <div className="space-y-6">{activeTab?.content}</div>
       </Card>

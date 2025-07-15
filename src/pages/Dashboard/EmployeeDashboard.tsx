@@ -10,20 +10,20 @@ import {
 import { useEffect, useState } from "react";
 // import SubLoader from "../../components/ui/loader/SubLoader";
 import PageBreadcrumb from "../../components/common/PageBreadCrumb";
-import TotalRatingBadge from "../../components/employeeDahboard/TotalRatingBadge";
-import ProfileCardSkeleton from "../../components/employeeDahboard/ProfileCardSkeleton";
-import ProfileCard from "../../components/employeeDahboard/ProfileCard";
-import TimeLogCardSkeleton from "../../components/employeeDahboard/TimeLogCardSkeleton";
-import TimeLogCard from "../../components/employeeDahboard/TimeLogCard";
-import LeaveCardsSkeleton from "../../components/employeeDahboard/LeaveCardsSkeleton";
-import LeaveCards from "../../components/employeeDahboard/LeaveCards";
-import ChartCard from "../../components/employeeDahboard/ChartCard";
-import AnnouncementsCard from "../../components/employeeDahboard/AnnouncementsCard";
-import MeetingCard from "../../components/employeeDahboard/MeetingCard";
+import TotalRatingBadge from "../../components/EmployeeDahboard/TotalRatingBadge";
+import ProfileCardSkeleton from "../../components/common/ProfileCardSkeleton";
+import ProfileCard from "../../components/common/ProfileCard";
+import TimeLogCardSkeleton from "../../components/EmployeeDahboard/TimeLogCardSkeleton";
+import TimeLogCard from "../../components/EmployeeDahboard/TimeLogCard";
+import LeaveCardsSkeleton from "../../components/EmployeeDahboard/LeaveCardsSkeleton";
+import LeaveCards from "../../components/EmployeeDahboard/LeaveCards";
+import ChartCard from "../../components/EmployeeDahboard/ChartCard";
+import AnnouncementsCard from "../../components/EmployeeDahboard/AnnouncementsCard";
+import MeetingCard from "../../components/EmployeeDahboard/MeetingCard";
 import Loader from "../../components/ui/loader/Loader";
-import ChartCardSkeleton from "../../components/employeeDahboard/ChartCardSkeleton";
-import AnnouncementsCardSkeleton from "../../components/employeeDahboard/AnnouncementsCardSkeleton";
-import MeetingCardSkeleton from "../../components/employeeDahboard/MeetingCardSkeleton";
+import ChartCardSkeleton from "../../components/EmployeeDahboard/ChartCardSkeleton";
+import AnnouncementsCardSkeleton from "../../components/EmployeeDahboard/AnnouncementsCardSkeleton";
+import MeetingCardSkeleton from "../../components/EmployeeDahboard/MeetingCardSkeleton";
 
 export default function EmployeeDashboard() {
   const [isLoading, setIsLoading] = useState(true);

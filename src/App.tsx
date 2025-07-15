@@ -7,11 +7,12 @@ import { ScrollToTop } from "./components/common/ScrollToTop";
 import EmployeeDashboard from "./pages/Dashboard/EmployeeDashboard";
 import { useEffect, useState } from "react";
 import Loader from "./components/ui/loader/Loader";
-import EmployeeProfile from "./pages/profile/Profile/EmployeeProfile";
+import EmployeeProfile from "./pages/Profile/EmployeeProfile";
 import EmployeeLeave from "./pages/Leaves/EmployeeLeave";
 import EmployeeAttendance from "./pages/Attendance/EmployeeAttendance";
 import EmployeeEvent from "./pages/Event/EmployeeEvent";
 import EmployeeHoliday from "./pages/Holiya/EmployeeHoliday";
+import HRDashboard from "./pages/Dashboard/HRDashboard";
 
 export default function App() {
 
@@ -36,15 +37,22 @@ export default function App() {
         <ScrollToTop />
         <Routes>
           {/* Dashboard Layout */}
+
+
           <Route element={<AppLayout />}>
-            <Route index path="/" element={<EmployeeDashboard />} />
+            <Route index path="/" element={<HRDashboard />} />
+            {/* HR Pages Starts */}
+            <Route index path="/hrDashboard" element={<HRDashboard />} />
+            {/* HR Pages Ends */}
+
 
             {/* Employee Pages Starts */}
-            <Route path="/profile" element={<EmployeeProfile />} />
-            <Route path="/attendance" element={<EmployeeAttendance />} />
-            <Route path="/events" element={<EmployeeEvent />} />
-            <Route path="/leaves" element={<EmployeeLeave />} />
-            <Route path="/holiday" element={<EmployeeHoliday />} />
+            <Route index path="/employeeDashboard" element={<EmployeeDashboard />} />
+            <Route path="/employeeProfile" element={<EmployeeProfile />} />
+            <Route path="/employeeAttendance" element={<EmployeeAttendance />} />
+            <Route path="/employeeEvents" element={<EmployeeEvent />} />
+            <Route path="/employeeLeaves" element={<EmployeeLeave />} />
+            <Route path="/employeeHoliday" element={<EmployeeHoliday />} />
             {/* Employee Pages Ends */}
 
           </Route>

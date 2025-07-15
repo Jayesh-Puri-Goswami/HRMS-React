@@ -1,13 +1,12 @@
-"use client";
-
 import type React from "react";
-
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Play, Pause, Clock, LogIn, LogOut, Fingerprint } from "lucide-react";
+import { Clock, LogOut, Fingerprint } from "lucide-react";
 import { Modal } from "../ui/modal";
 
 import ToggleButton from "../ui/button/ToggleButton";
+import { useSelector } from "react-redux";
+import axios from "axios";
 
 interface CheckInData {
   startTime: Date;
@@ -28,6 +27,12 @@ const CheckInButton: React.FC = () => {
   });
   const [notes, setNotes] = useState("");
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  const currentUser = useSelector((state: any) => state.auth.user);
+
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
 
   // Format time helper
   const formatTime = (seconds: number): string => {
@@ -60,7 +65,7 @@ const CheckInButton: React.FC = () => {
   };
 
   // Handle check in
-  const handleCheckIn = () => {
+  const handleCheckInButton = () => {
     const now = new Date();
     setCheckInData({
       startTime: now,
@@ -71,6 +76,7 @@ const CheckInButton: React.FC = () => {
     setIsCheckedIn(true);
     setShowCheckInModal(false);
     startTimer();
+    handleCheckIn()
   };
 
   // Handle toggle pause/resume
@@ -121,6 +127,25 @@ const CheckInButton: React.FC = () => {
     };
   }, []);
 
+  const handleCheckIn = async () => {
+    try {
+      setIsLoading(true);
+
+      const baseURL = import.meta.env.VITE_API_URL
+
+      const response = await axios.get(`${baseURL}/employee/check-in`, {
+        headers: {
+          Authorization: `Bearer ${currentUser.token}`
+        }
+      })
+
+      console.log(response);
+    } catch (error : any ) {
+      setError(error.response.data.message || "Error checking in"  );
+    }
+  }
+
+
   return (
     <>
       {/* Check In Button (Fingerprint) */}
@@ -165,18 +190,18 @@ const CheckInButton: React.FC = () => {
             <LogOut size={16} />
           </motion.button> */}
           <button
-          onClick={handleCheckOut}
-          className="relative flex flex-col items-center justify-center group focus:outline-none"
-        >
-          <span className="relative flex items-center justify-center w-8 h-8 lg:w-[2.7rem] lg:h-[2.7rem] rounded-full bg-gradient-to-br from-red-500 to-pink-500 shadow-lg dark:from-red-600 dark:to-pink-700 border-2 border-white dark:border-none transition-all group-hover:scale-100 group-active:scale-95">
-            <Fingerprint
-              size={20}
-              className="text-white dark:text-white drop-shadow-sm"
-            />
-            {/* Scan animation overlay */}
-            {/* <span className="absolute inset-0 pointer-events-none animate-fingerprint-glow rounded-full" /> */}
-          </span>
-        </button>
+            onClick={handleCheckOut}
+            className="relative flex flex-col items-center justify-center group focus:outline-none"
+          >
+            <span className="relative flex items-center justify-center w-8 h-8 lg:w-[2.7rem] lg:h-[2.7rem] rounded-full bg-gradient-to-br from-red-500 to-pink-500 shadow-lg dark:from-red-600 dark:to-pink-700 border-2 border-white dark:border-none transition-all group-hover:scale-100 group-active:scale-95">
+              <Fingerprint
+                size={20}
+                className="text-white dark:text-white drop-shadow-sm"
+              />
+              {/* Scan animation overlay */}
+              {/* <span className="absolute inset-0 pointer-events-none animate-fingerprint-glow rounded-full" /> */}
+            </span>
+          </button>
         </div>
       )}
 
@@ -204,7 +229,7 @@ const CheckInButton: React.FC = () => {
             <motion.button
               whileHover={{ scale: 1 }}
               whileTap={{ scale: 0.95 }}
-              onClick={handleCheckIn}
+              onClick={handleCheckInButton}
               className="flex-1 px-2 py-1 md:px-6 md:py-2 bg-brand-500 hover:bg-brand-600 text-white rounded-lg font-semibold transition-colors shadow-md focus:outline-none focus:ring-2 focus:ring-brand-400"
             >
               Yes, Check In

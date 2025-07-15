@@ -11,7 +11,7 @@ export default function AuthLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="relative p-6 bg-themeBackgroundColor z-1 dark:bg-gray-900 sm:p-0">
+    <div className="relative bg-themeBackgroundColor z-1 dark:bg-gray-900 sm:p-0">
       <div className="relative flex flex-col justify-center w-full h-screen lg:flex-row dark:bg-gray-900 sm:p-0">
         {children}
 
@@ -29,13 +29,13 @@ export default function AuthLayout({
                   <img
                     width={100}
                     height={48}
-                    src="/public/images/logo/CSL-Monogram.png"
+                    src="images/logo/CSL-Monogram.png"
                     alt="Logo"
                   />
                   <img
                     width={350}
                     height={48}
-                    src="/public/images/logo/logo.svg"
+                    src="images/logo/logo.svg"
                     alt="Logo"
                   />
                 </div>

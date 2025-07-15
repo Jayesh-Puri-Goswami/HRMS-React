@@ -27,27 +27,27 @@ const navItems: NavItem[] = [
   {
     icon: <User />,
     name: "Profile",
-    path: "/profile",
+    path: "/employeeProfile",
   },
   {
     icon: <CalenderIcon />,
     name: "Attendance",
-    path: "/attendance",
+    path: "/employeeAttendance",
   },
   {
     icon: <CalendarSync />,
     name: "Events",
-    path: "/events",
+    path: "/employeeEvents",
   },
   {
     name: "Leaves",
     icon: <ListIcon />,
-    path: "/leaves",
+    path: "/employeeLeaves",
   },
   {
     name: "Holiday",
     icon: <TreePalm />,
-    path: "/holiday",
+    path: "/employeeHoliday",
   },
 ];
 

@@ -48,8 +48,8 @@ function EmployeeLeave() {
 
       <Card
         className={`dark:border-white/10  bg-white dark:bg-white/[0.03] ${
-          activeTab?.label == tabItems[0].label ? "rounded-tl-none" : "rounded-tl-3xl"
-        } rounded-b-3xl rounded-tr-3xl `}
+          activeTab?.label == tabItems[0].label ? "rounded-tl-none" : "rounded-tl-none sm:rounded-tl-3xl"
+        } ${activeTab?.label == tabItems[tabItems.length - 1].label ? "rounded-tr-none sm:rounded-tr-3xl" : "rounded-tr-3xl" }  rounded-b-3xl rounded-tr-none sm:rounded-tr-3xl `}
       >
         <div className="space-y-6">{activeTab?.content}</div>
       </Card>

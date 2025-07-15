@@ -2,9 +2,12 @@ import { useState } from "react";
 import { DropdownItem } from "../ui/dropdown/DropdownItem";
 import { Dropdown } from "../ui/dropdown/Dropdown";
 import { Link } from "react-router";
+import { useSelector } from "react-redux";
 
 export default function UserDropdown() {
   const [isOpen, setIsOpen] = useState(false);
+
+  const currentUser = useSelector((state: any) => state.auth.user);
 
   function toggleDropdown() {
     setIsOpen(!isOpen);
@@ -24,8 +27,8 @@ export default function UserDropdown() {
         </span> */}
 
         <div className="mr-[8px] font-medium text-theme-sm flex flex-col justify-center items-center gap-0">
-          <span className="text-gray-500 dark:text-white text-[12px] "  >Jayesh Puri Goswami</span>
-          <span className="text-gray-400 text-[12px] -mt-2 " >Jayesh@carinasoftlabs.in</span>
+          <span className="text-gray-500 dark:text-white text-[12px] "  > {currentUser?.name || "User Name"} </span>
+          <span className="text-gray-400 text-[12px] -mt-2 " > {currentUser?.email || 'user@example.com' } </span>
         </div>
         <span className="bg-themeBlueLight dark:bg-themeBlue/50 rounded-full p-1 flex justify-center items-center" >
           <svg
