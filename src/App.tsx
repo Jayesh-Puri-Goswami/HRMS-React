@@ -13,6 +13,7 @@ import EmployeeAttendance from "./pages/Attendance/EmployeeAttendance";
 import EmployeeEvent from "./pages/Event/EmployeeEvent";
 import EmployeeHoliday from "./pages/Holiya/EmployeeHoliday";
 import HRDashboard from "./pages/Dashboard/HRDashboard";
+<<<<<<< HEAD
 import { Navigate, Outlet } from "react-router-dom";
 import { useSelector } from "react-redux";
 import EmployeeCalendar from "./pages/Calendar/EmployeeCalendar";
@@ -39,6 +40,9 @@ const ProtectedRoute = ({ allowedRoles }: ProtectedRouteProps) => {
 
   return <Outlet />;
 };
+=======
+import HrAttendance from "./pages/Attendance/HrAttendance";
+>>>>>>> 59cf20eef3f4930e236fb7586a1dbeec7027eb7a
 
 export default function App() {
 
@@ -62,9 +66,35 @@ export default function App() {
       <Router>
         <ScrollToTop />
         <Routes>
+<<<<<<< HEAD
           
           {/* Auth Starts */}
           <Route path="/" element={<Navigate to="/login" replace />} />
+=======
+          {/* Dashboard Layout */}
+
+
+          <Route element={<AppLayout />}>
+            <Route index path="/" element={<HRDashboard />} />
+            {/* HR Pages Starts */}
+            <Route index path="/hrDashboard" element={<HRDashboard />} />
+            <Route index path="/hrAttendance" element={<HrAttendance />} />
+            {/* HR Pages Ends */}
+
+
+            {/* Employee Pages Starts */}
+            <Route index path="/employeeDashboard" element={<EmployeeDashboard />} />
+            <Route path="/employeeProfile" element={<EmployeeProfile />} />
+            <Route path="/employeeAttendance" element={<EmployeeAttendance />} />
+            <Route path="/employeeEvents" element={<EmployeeEvent />} />
+            <Route path="/employeeLeaves" element={<EmployeeLeave />} />
+            <Route path="/employeeHoliday" element={<EmployeeHoliday />} />
+            {/* Employee Pages Ends */}
+
+          </Route>
+
+          {/* Auth Layout */}
+>>>>>>> 59cf20eef3f4930e236fb7586a1dbeec7027eb7a
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/unauthorized" element={<NotFound />} />
