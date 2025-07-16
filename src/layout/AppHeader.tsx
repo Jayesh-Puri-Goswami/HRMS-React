@@ -2,18 +2,18 @@ import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useSidebar } from "../context/SidebarContext";
 import { ThemeToggleButton } from "../components/common/ThemeToggleButton";
-import NotificationDropdown from "../components/header/NotificationDropdown";
-import UserDropdown from "../components/header/UserDropdown";
-import CheckInButton from "../components/header/CheckInButton";
+import NotificationDropdown from "../components/Header/NotificationDropdown";
+import UserDropdown from "../components/Header/UserDropdown";
+import CheckInButton from "../components/Header/CheckInButton";
 
 import { useSelector } from "react-redux";
 
 
-const iconVariants = {
-  initial: { opacity: 0, scale: 0.8, rotate: -90 },
-  animate: { opacity: 1, scale: 1, rotate: 0 },
-  exit: { opacity: 0, scale: 0.8, rotate: 90 },
-};
+// const iconVariants = {
+//   initial: { opacity: 0, scale: 0.8, rotate: -90 },
+//   animate: { opacity: 1, scale: 1, rotate: 0 },
+//   exit: { opacity: 0, scale: 0.8, rotate: 90 },
+// };
 
 const AppHeader: React.FC = () => {
 
@@ -120,10 +120,10 @@ const AppHeader: React.FC = () => {
             initial={{ opacity: 0, y: -10 }}
             whileInView={{ opacity: 1, y: 0 }}
             className={`${
-              isApplicationMenuOpen ? "flex" : "hidden"
-            } items-center justify-between w-full gap-4 px-5 py-4 lg:flex shadow-theme-md lg:justify-end lg:px-0 lg:shadow-none`}
+              isApplicationMenuOpen ? "flex flex-wrap sm:flex-nowrap" : "hidden"
+            } items-center justify-center w-full gap-2 md:gap-4 px-5 py-4 lg:flex shadow-theme-md lg:justify-end lg:px-0 lg:shadow-none`}
           >
-            <div className="flex items-center gap-2 2xsm:gap-3">
+            <div className="flex flex-wrap sm:flex-nowrap items-center 2xsm:gap-3">
 
               {/* Check In Button Starts */}
                <CheckInButton/>

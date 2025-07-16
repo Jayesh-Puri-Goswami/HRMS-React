@@ -9,6 +9,7 @@ interface ModalProps {
   children: React.ReactNode;
   showCloseButton?: boolean; // New prop to control close button visibility
   isFullscreen?: boolean; // Default to false for backwards compatibility
+  error?: string;
 }
 
 export const Modal: React.FC<ModalProps> = ({
@@ -18,6 +19,7 @@ export const Modal: React.FC<ModalProps> = ({
   className,
   showCloseButton = true, // Default to true for backwards compatibility
   isFullscreen = false,
+  error
 }) => {
   const modalRef = useRef<HTMLDivElement>(null);
 
@@ -87,6 +89,11 @@ export const Modal: React.FC<ModalProps> = ({
                 <X className="w-5 h-5" />
               </motion.button>
             )}
+            {/* {error && (
+              <div className="absolute -translate-x-1/2 -translate-y-1/2 -top-20 left-1/2 bg-red-100 border border-red-400 text-red-700 px-4 py-2 rounded-md text-sm mt-2">
+                <strong className="font-semibold">Error:</strong> {error}
+              </div>
+            )} */}
             <div>{children}</div>
           </motion.div>
         </div>

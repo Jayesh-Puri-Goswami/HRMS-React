@@ -4,7 +4,7 @@ import type React from "react";
 import { motion } from "framer-motion";
 import { LogIn, LogOut, Coffee, User } from "lucide-react";
 import Card from "../ui/card/Card";
-import { ProfileCardProps } from "../../types/HRDashboard";
+import { ProfileCardProps } from "../../types/common/ProfileCardProps";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 

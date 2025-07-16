@@ -4,3 +4,4 @@ export interface NavItem {
   path?: string;
   subItems?: { name: string; path: string; pro?: boolean; new?: boolean }[];
 }
+

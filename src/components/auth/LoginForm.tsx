@@ -39,11 +39,13 @@ export default function LoginForm() {
         saveAuth(data, token);
         dispatch(setUser({ user: data, token }));
         if (data.role === "Admin") {
-          navigate("/hrDashboard");
+          navigate("/hr-dashboard");
         } else if (data.role === "Employee") {
-          navigate("/employeeDashboard");
+          navigate("/employee-dashboard");
         } else if (data.role === "HR") {
-          navigate("/hrDashboard");
+          navigate("/hr-dashboard");
+        }else {
+          navigate("/unauthorized");
         }
         setEmail("");
         setPassword("");

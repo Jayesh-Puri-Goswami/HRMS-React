@@ -4,11 +4,8 @@ import {
   employeeData,
   timeLogData,
   leaveData,
-  // meetings,
-  // announcements,
 } from "../../constant/EmployeeDahboard";
 import { useEffect, useState } from "react";
-// import SubLoader from "../../components/ui/loader/SubLoader";
 import PageBreadcrumb from "../../components/common/PageBreadCrumb";
 import TotalRatingBadge from "../../components/EmployeeDahboard/TotalRatingBadge";
 import ProfileCardSkeleton from "../../components/common/ProfileCardSkeleton";

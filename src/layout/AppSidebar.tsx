@@ -20,71 +20,20 @@ import SidebarWidget from "./SidebarWidget";
 
 import { NavItem } from "../types/Sidebar";
 import { CalendarSync, TreePalm, User } from 'lucide-react'
+import { useSelector } from 'react-redux';
+import { SIDEBAR_NAV_ITEMS } from '../constant/SidebarNavItem';
 
-
-
-const navItems: NavItem[] = [
-  {
-    icon: <User />,
-    name: "Profile",
-    path: "/employeeProfile",
-  },
-  {
-    icon: <CalenderIcon />,
-    name: "Attendance",
-    path: "/hrAttendance",
-  },
-  {
-    icon: <CalendarSync />,
-    name: "Events",
-    path: "/employeeEvents",
-  },
-  {
-    name: "Leaves",
-    icon: <ListIcon />,
-    path: "/employeeLeaves",
-  },
-  {
-    name: "Holiday",
-    icon: <TreePalm />,
-    path: "/employeeHoliday",
-  },
-];
-
-const othersItems: NavItem[] = [
-  {
-    icon: <PieChartIcon />,
-    name: "Charts",
-    subItems: [
-      { name: "Line Chart", path: "/line-chart", pro: false },
-      { name: "Bar Chart", path: "/bar-chart", pro: false },
-    ],
-  },
-  {
-    icon: <BoxCubeIcon />,
-    name: "UI Elements",
-    subItems: [
-      { name: "Alerts", path: "/alerts", pro: false },
-      { name: "Avatar", path: "/avatars", pro: false },
-      { name: "Badge", path: "/badge", pro: false },
-      { name: "Buttons", path: "/buttons", pro: false },
-      { name: "Images", path: "/images", pro: false },
-      { name: "Videos", path: "/videos", pro: false },
-    ],
-  },
-  {
-    icon: <PlugInIcon />,
-    name: "Authentication",
-    subItems: [
-      { name: "Sign In", path: "/login", pro: false },
-      { name: "Sign Up", path: "/signup", pro: false },
-    ],
-  },
-];
 
 const AppSidebar: React.FC = () => {
   const { isExpanded, isMobileOpen, isHovered, setIsHovered } = useSidebar();
   const location = useLocation();
+
+  // Get current user from Redux
+  const currentUser = useSelector((state: any) => state.auth.user);
+
+  const role = currentUser?.role || 'Employee';
+
+  const navItems = SIDEBAR_NAV_ITEMS[role] || [];
 
   const [openSubmenu, setOpenSubmenu] = useState<{
     type: "main" | "others";
@@ -104,7 +53,7 @@ const AppSidebar: React.FC = () => {
   useEffect(() => {
     let submenuMatched = false;
     ["main", "others"].forEach((menuType) => {
-      const items = menuType === "main" ? navItems : othersItems;
+      const items = menuType === "main" ? navItems : [];
       items.forEach((nav, index) => {
         if (nav.subItems) {
           nav.subItems.forEach((subItem) => {
@@ -291,7 +240,7 @@ const AppSidebar: React.FC = () => {
       <div
         className={`py-8 flex justify-center items-center border-b border-gray-300 dark:dark:border-white/10`}
       >
-        <Link to="/">
+        <Link to={`/${role?.toLowerCase()}-dashboard`}>
           {isExpanded || isHovered || isMobileOpen ? (
             <>
               <div className="flex justify-center items-center flex-col gap-3 ">
