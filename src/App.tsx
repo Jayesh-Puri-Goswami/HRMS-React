@@ -13,6 +13,7 @@ import EmployeeAttendance from "./pages/Attendance/EmployeeAttendance";
 import EmployeeEvent from "./pages/Event/EmployeeEvent";
 import EmployeeHoliday from "./pages/Holiya/EmployeeHoliday";
 import HRDashboard from "./pages/Dashboard/HRDashboard";
+import HrAttendance from "./pages/Attendance/HrAttendance";
 
 export default function App() {
 
@@ -43,7 +44,7 @@ export default function App() {
             <Route index path="/" element={<HRDashboard />} />
             {/* HR Pages Starts */}
             <Route index path="/hrDashboard" element={<HRDashboard />} />
-            <Route index path="/hrAttendance" element={<HRDashboard />} />
+            <Route index path="/hrAttendance" element={<HrAttendance />} />
             {/* HR Pages Ends */}
 
 
