@@ -43,6 +43,7 @@ export default function App() {
             <Route index path="/" element={<HRDashboard />} />
             {/* HR Pages Starts */}
             <Route index path="/hrDashboard" element={<HRDashboard />} />
+            <Route index path="/hrAttendance" element={<HRDashboard />} />
             {/* HR Pages Ends */}
 
 

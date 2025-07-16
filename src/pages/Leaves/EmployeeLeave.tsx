@@ -36,23 +36,24 @@ function EmployeeLeave() {
     <>
       <PageMeta title="Employee Leave" description="" />
       <PageBreadcrumb pageTitle="Leave" />
+      <div className="scale-90 sm:scale-90 md:scale-none ">
+        <Tabs
+          tabItems={['Leave Status', 'Summary', 'Leave Available']}
+          currentTab={tabItems.find((tab) => tab.id === currentTab)?.label || ""}
+          onTabChange={(label) => {
+            const selected = tabItems.find((tab) => tab.label === label);
+            if (selected) setCurrentTab(selected.id);
+          }}
+        />
 
-      <Tabs
-       tabItems={['Leave Status','Summary', 'Leave Available']}
-        currentTab={tabItems.find((tab) => tab.id === currentTab)?.label || ""}
-        onTabChange={(label) => {
-          const selected = tabItems.find((tab) => tab.label === label);
-          if (selected) setCurrentTab(selected.id);
-        }}
-      />
+        <Card
+          className={`dark:border-white/10  bg-white dark:bg-white/[0.03] ${activeTab?.label == tabItems[0].label ? "rounded-tl-none" : "rounded-tl-none sm:rounded-tl-3xl"
+            } ${activeTab?.label == tabItems[tabItems.length - 1].label ? "rounded-tr-none sm:rounded-tr-3xl" : "rounded-tr-3xl"}  rounded-b-3xl rounded-tr-none sm:rounded-tr-3xl `}
+        >
+          <div className="space-y-6">{activeTab?.content}</div>
+        </Card>
+      </div>
 
-      <Card
-        className={`dark:border-white/10  bg-white dark:bg-white/[0.03] ${
-          activeTab?.label == tabItems[0].label ? "rounded-tl-none" : "rounded-tl-none sm:rounded-tl-3xl"
-        } ${activeTab?.label == tabItems[tabItems.length - 1].label ? "rounded-tr-none sm:rounded-tr-3xl" : "rounded-tr-3xl" }  rounded-b-3xl rounded-tr-none sm:rounded-tr-3xl `}
-      >
-        <div className="space-y-6">{activeTab?.content}</div>
-      </Card>
     </>
   );
 }

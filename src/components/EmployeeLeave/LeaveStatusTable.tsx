@@ -67,7 +67,7 @@ const columns: ColumnConfig<AttendanceRow>[] = [
     key: "name",
     header: "Profile",
     render: (row) => (
-      <div className="flex items-center gap-2">
+      <div className="flex  items-center gap-2">
         {row.avatar && (
           <img
             src={row.avatar}
@@ -110,8 +110,8 @@ const columns: ColumnConfig<AttendanceRow>[] = [
 
 function LeaveStatusTable() {
   const filter = (
-    <div className="flex justify-evenly items-center">
-      <ChevronLeft /> April, 2025 <ChevronRight />
+    <div className="flex  text-xs md:text-base lg:text-lg justify-evenly items-center">
+      <ChevronLeft className="p-0.5" /> April, 2025 <ChevronRight className="p-0.5"  />
     </div>
   );
 

@@ -63,10 +63,7 @@ const attendanceData: AttendanceRow[] = [
   },
 ];
 
-
-
 function LeaveSummary() {
-
   const columns: ColumnConfig<AttendanceRow>[] = [
     {
       key: "name",
@@ -120,15 +117,36 @@ function LeaveSummary() {
 
   return (
     <>
-      <div className="">
-        <div className="flex justify-evenly">
-          <StatsCard label="leave Approved" value={2} />
-          <StatsCard label="upcoming Leave" value={1} />
-          <StatsCard label="Pending request" value={0} />
+      <div className="px-2 ">
+        <div className="flex flex-wrap md:gap-4 gap-0 justify-evenly md:justify-between ">
+          <StatsCard
+            className="flex-1 sm:w-[250px] md: h-[70px]  scale-75 sm:scale-75 md:scale-90"
+            labelClassName="text-xs sm:text-sm md:text-base"
+            boxClassName="p-1"
+            valueClassName="text-base"
+            label="Leave Approved"
+            value={2}
+          />
+          <StatsCard
+            className="flex-1 sm:w-[250px] md: h-[70px]  scale-75 sm:scale-75 md:scale-90"
+            labelClassName="text-xs sm:text-sm md:text-base"
+            boxClassName="p-1"
+            valueClassName="text-base"
+            label="Upcoming Leave"
+            value={1}
+          />
+          <StatsCard
+            className="flex-1 sm:w-[250px] md: h-[70px]  scale-75 sm:scale-75 md:scale-90"
+            labelClassName="text-xs sm:text-sm md:text-base"
+            boxClassName="p-1"
+            valueClassName="text-base"
+            label="Pending Request"
+            value={0}
+          />
         </div>
       </div>
 
-      <div className="">
+      <div className="mt-4 px-2">
         <DataTable
           showActionButton={false}
           showFilter={false}

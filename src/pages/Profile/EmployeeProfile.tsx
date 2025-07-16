@@ -21,7 +21,11 @@ import Badge from "../../components/ui/badge/Badge";
 import PopupBox from "../../components/ui/popup/PopupBox";
 import ProfileDetail from "../../components/EmployeeProfile/ProfileDesig";
 import InputField from "../../components/ui/inputs/InputField";
-import ProfileAddress from "../../components/EmployeeProfile/ProfileAddress";
+import ProfileAddress from "../../components/EmployeeProfile/ProfileAddress/ProfileAddress";
+import LeaveAllowance from "../../components/EmployeeProfile/LeaveAllowance";
+import GuardianDetail from "../../components/EmployeeProfile/ProfileGraduation/GuardianDetail";
+import ProfileDocuments from "../../components/EmployeeProfile/ProfileDocuments/ProfileDocuments";
+import BankDetails from "../../components/EmployeeProfile/BankDetails/BankDetails";
 
 // Types
 interface AddressItem {
@@ -47,118 +51,188 @@ interface LeaveAllowanceItem {
   [key: string]: string;
 }
 
-// Static Data
-const sampleEmployee = {
-  id: "1",
-  name: "Employee Name",
-  phone: "+91 99999 99999",
-  email: "Lorem@gmail.com",
-  department: "Game Development",
-  designation: "Designer",
-  workShift: "Regular",
-  joiningDate: "1-Sep-2021",
-  avatar: "",
-};
-const sampleTableData = [
-  {
+interface ModalData {
+  address: string;
+  type: "Permanent Address" | "Current Address";
+}
+
+const EmployeeProfile: React.FC = () => {
+  const [currentTab, setCurrentTab] = useState("address");
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalData, setModalData] = useState<ModalData>();
+
+  // Remove unused selectedAddress state
+
+  const openModal = (item?: { address: string; type: ModalData["type"] }) => {
+    setIsModalOpen(true);
+  };
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  // Static Data
+  const sampleEmployee = {
     id: "1",
-    imgae: "/pucli/hdh",
-    bankName: "HDFC Bank",
-    accountNumber: "****1234",
-    accountType: "Savings",
-    ifscCode: "HDFC0001234",
-    status: "Active",
-  },
-  {
-    id: "2",
-    bankName: "ICICI Bank",
-    accountNumber: "****5678",
-    accountType: "Current",
-    ifscCode: "ICIC0005678",
-    status: "Active",
-  },
-  {
-    id: "3",
-    bankName: "SBI Bank",
-    accountNumber: "****9012",
-    accountType: "Savings",
-    ifscCode: "SBIN0009012",
-    status: "Inactive",
-  },
-  {
-    id: "4",
-    bankName: "Axis Bank",
-    accountNumber: "****3456",
-    accountType: "Current",
-    ifscCode: "AXIS0003456",
-    status: "Active",
-  },
-];
-const columns = [
-  {
-    key: "bankName" as keyof (typeof sampleTableData)[0],
-    label: "Bank Name",
-    sortable: true,
-  },
-  {
-    key: "accountNumber" as keyof (typeof sampleTableData)[0],
-    label: "Account Number",
-    sortable: true,
-  },
-  {
-    key: "accountType" as keyof (typeof sampleTableData)[0],
-    label: "Account Type",
-    sortable: true,
-  },
-  {
-    key: "ifscCode" as keyof (typeof sampleTableData)[0],
-    label: "IFSC Code",
-    sortable: true,
-  },
-  {
-    key: "status" as keyof (typeof sampleTableData)[0],
-    label: "Status",
-    sortable: true,
-    render: (row: (typeof sampleTableData)[0]) => (
-      <Badge color={row.status === "Active" ? "success" : "error"} size="sm">
-        {row.status}
-      </Badge>
-    ),
-  },
-];
-const address = {
-  address: [
+    name: "Employee Name",
+    phone: "+91 99999 99999",
+    email: "Lorem@gmail.com",
+    department: "Game Development",
+    designation: "Designer",
+    workShift: "Regular",
+    joiningDate: "1-Sep-2021",
+    avatar: "",
+  };
+  const bankDetails = [
     {
-      icon: (
-        <Image className="w-10 h-10 p-2 bg-themeBackgroundColor dark:bg-gray-800 dark:text-white text-gray-800 rounded-full" />
-      ),
-      label: "Permanent Address",
-      address:
-        "124/5, Singapore Township, Talawali Chanda Indore (Madhya Pradesh)",
-      onEdit: () => alert("Edit address"),
-      EditIcon: (
-        <SquarePen className="w-10 h-10 p-2 bg-themeBackgroundColor dark:bg-gray-800 dark:text-white text-gray-800 rounded-full cursor-pointer" />
+      id: "1",
+      imgae: "/pucli/hdh",
+      bankName: "HDFC Bank",
+      accountNumber: "****1234",
+      accountType: "Savings",
+      ifscCode: "HDFC0001234",
+      status: "Active",
+    },
+    {
+      id: "2",
+      bankName: "ICICI Bank",
+      accountNumber: "****5678",
+      accountType: "Current",
+      ifscCode: "ICIC0005678",
+      status: "Active",
+    },
+    {
+      id: "3",
+      bankName: "SBI Bank",
+      accountNumber: "****9012",
+      accountType: "Savings",
+      ifscCode: "SBIN0009012",
+      status: "Inactive",
+    },
+    {
+      id: "4",
+      bankName: "Axis Bank",
+      accountNumber: "****3456",
+      accountType: "Current",
+      ifscCode: "AXIS0003456",
+      status: "Active",
+    },
+  ];
+  const columns = [
+    {
+      key: "bankName" as keyof (typeof bankDetails)[0],
+      label: "Bank Name",
+      sortable: true,
+    },
+    {
+      key: "accountNumber" as keyof (typeof bankDetails)[0],
+      label: "Account Number",
+      sortable: true,
+    },
+    {
+      key: "accountType" as keyof (typeof bankDetails)[0],
+      label: "Account Type",
+      sortable: true,
+    },
+    {
+      key: "ifscCode" as keyof (typeof bankDetails)[0],
+      label: "IFSC Code",
+      sortable: true,
+    },
+    {
+      key: "status" as keyof (typeof bankDetails)[0],
+      label: "Status",
+      sortable: true,
+      render: (row: (typeof bankDetails)[0]) => (
+        <Badge color={row.status === "Active" ? "success" : "error"} size="sm">
+          {row.status}
+        </Badge>
       ),
     },
-  ] as AddressItem[],
-};
-const leaveAllowance = {
-  leaveAllowance: [
-    { casualLeave: "Casual Leave", value: "8" },
-    { sickLeave: "Sick Leave", value: "10" },
-    { annualLeave: "Annual Leave", value: "15" },
-    { maternityLeave: "Maternity Leave", value: "12" },
-    { paternityLeave: "Paternity Leave", value: "10" },
-    { otherLeave: "Other Leave", value: "Other Leave" },
-  ] as LeaveAllowanceItem[],
-};
-const guardianDetail = {
-  guardianDetail: [
+  ];
+  const documentColumns = [
+    { key: "name", label: "Document Name", sortable: true },
+    { key: "type", label: "Type", sortable: true },
+    { key: "uploadedDate", label: "Uploaded Date", sortable: true },
+    { key: "status", label: "Status", sortable: true },
+  ];
+  const documentData = [
     {
-      icon: (
-        <Image className="w-10 h-10 p-2 bg-themeBackgroundColor dark:bg-gray-800 dark:text-white text-gray-800 rounded-full" />
-      ),
-      label: "Guardian Detail",
+      id: "1",
+      name: "Aadhaar Card",
+      type: "PDF",
+      uploadedDate: "2024-01-12",
+      status: "Verified",
+    },
+    {
+      id: "2",
+      name: "PAN Card",
+      type: "PDF",
+      uploadedDate: "2023-12-10",
+      status: "Pending",
+    },
+  ];
+  const salaryOverviewColumns = [
+    { key: "month", label: "Month", sortable: true },
+    { key: "basic", label: "Basic Salary", sortable: true },
+    { key: "bonus", label: "Bonus", sortable: true },
+    { key: "total", label: "Total", sortable: true },
+  ];
+  const salaryOverviewData = [
+    {
+      id: "1",
+      month: "June 2025",
+      basic: "₹30,000",
+      bonus: "₹5,000",
+      total: "₹35,000",
+    },
+    {
+      id: "2",
+      month: "May 2025",
+      basic: "₹30,000",
+      bonus: "₹3,000",
+      total: "₹33,000",
+    },
+  ];
+  const payslipColumns = [
+    { key: "month", label: "Month", sortable: true },
+    { key: "file", label: "File", sortable: false },
+    {
+      key: "download",
+      label: "Download",
+      sortable: false,
+      render: () => <Button size="sm">Download</Button>,
+    },
+  ];
+  const payslipData = [
+    { id: "1", month: "June 2025", file: "payslip-june-2025.pdf" },
+    { id: "2", month: "May 2025", file: "payslip-may-2025.pdf" },
+  ];
+  const leaveAllowance = [
+    {
+      id: 1,
+      title: "Leave Allowance",
+      leaveName: "Casual Leave",
+      value: "8",
+    },
+    { id: 2, leaveName: "Personal Leave", value: "10" },
+    { id: 3, leaveName: "Medical Leave", value: "15" },
+  ];
+  const leaveAvailable = [
+    {
+      id: 1,
+      title: "Leave Available",
+      leaveName: "Casual Leave",
+      value: "4",
+    },
+    { id: 2, leaveName: "Personal Leave", value: "5" },
+    { id: 3, leaveName: "Medical Leave", value: "12" },
+  ];
+  const guardianDetail = [
+    {
+      name: "Loren Name",
+      subhead: "Lorem",
+      icon: <Image />,
       data: [
         {
           icon: <Image />,
@@ -170,116 +244,146 @@ const guardianDetail = {
         },
       ],
     },
-  ] as GuardianData[],
-};
-const documentColumns = [
-  { key: "name", label: "Document Name", sortable: true },
-  { key: "type", label: "Type", sortable: true },
-  { key: "uploadedDate", label: "Uploaded Date", sortable: true },
-  { key: "status", label: "Status", sortable: true },
-];
-const documentData = [
-  {
-    id: "1",
-    name: "Aadhaar Card",
-    type: "PDF",
-    uploadedDate: "2024-01-12",
-    status: "Verified",
-  },
-  {
-    id: "2",
-    name: "PAN Card",
-    type: "PDF",
-    uploadedDate: "2023-12-10",
-    status: "Pending",
-  },
-];
-const salaryOverviewColumns = [
-  { key: "month", label: "Month", sortable: true },
-  { key: "basic", label: "Basic Salary", sortable: true },
-  { key: "bonus", label: "Bonus", sortable: true },
-  { key: "total", label: "Total", sortable: true },
-];
-const salaryOverviewData = [
-  {
-    id: "1",
-    month: "June 2025",
-    basic: "₹30,000",
-    bonus: "₹5,000",
-    total: "₹35,000",
-  },
-  {
-    id: "2",
-    month: "May 2025",
-    basic: "₹30,000",
-    bonus: "₹3,000",
-    total: "₹33,000",
-  },
-];
-const payslipColumns = [
-  { key: "month", label: "Month", sortable: true },
-  { key: "file", label: "File", sortable: false },
-  {
-    key: "download",
-    label: "Download",
-    sortable: false,
-    render: () => <Button size="sm">Download</Button>,
-  },
-];
-const payslipData = [
-  { id: "1", month: "June 2025", file: "payslip-june-2025.pdf" },
-  { id: "2", month: "May 2025", file: "payslip-may-2025.pdf" },
-];
+  ];
 
+  const address = [
+    {
+      icon: (
+        <Image className="w-10 h-10 p-2 bg-themeBackgroundColor dark:bg-gray-800 dark:text-white text-gray-800 rounded-full" />
+      ),
+      label: "Permanent Address",
+      address:
+        "124/5, Singapore Township, Talawali Chanda Indore (Madhya Pradesh)",
 
-const EmployeeProfile: React.FC = () => {
-  const [currentTab, setCurrentTab] = useState("address");
-  const actionButtons = [
-    { label: "Address", onClick: () => setCurrentTab("address") },
-    { label: "Documents", onClick: () => setCurrentTab("documents") },
-    { label: "Bank Details", onClick: () => setCurrentTab("bank-details") },
-    {
-      label: "Salary Overview",
-      onClick: () => setCurrentTab("salary-overview"),
-    },
-    { label: "Payslip", onClick: () => setCurrentTab("payslip") },
-    {
-      label: "Leave Allowance",
-      onClick: () => setCurrentTab("leave-allowance"),
+      addressInput: "address",
+      EditIcon: (
+        <SquarePen className="w-10 h-10 p-2 bg-themeBackgroundColor dark:bg-gray-800 dark:text-white text-gray-800 rounded-full cursor-pointer" />
+      ),
     },
     {
-      label: "Guardian Detail",
-      onClick: () => setCurrentTab("guardian-detail"),
+      icon: (
+        <Image className="w-10 h-10 p-2 bg-themeBackgroundColor dark:bg-gray-800 dark:text-white text-gray-800 rounded-full" />
+      ),
+      label: "Current Address",
+      address:
+        "124/5, Singapore Township, Talawali Chanda Indore (Madhya Pradesh)",
+
+      EditIcon: (
+        <SquarePen className="w-10 h-10 p-2 bg-themeBackgroundColor dark:bg-gray-800 dark:text-white text-gray-800 rounded-full cursor-pointer" />
+      ),
     },
   ];
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
+  const actionButtons = [
+    {
+      label: "Address",
+      id: "address",
+      isButton: false,
+      onClick: () => setCurrentTab("address"),
+      onAdd: () => {
+        openModal();
+      },
+    },
+    {
+      label: "Documents",
+      id: "documents",
+      isButton: true,
+      onClick: () => setCurrentTab("documents"),
+      onAdd: () => {
+        openModal();
+      },
+    },
+    {
+      label: "Bank Details",
+      id: "bank-details",
+      isButton: true,
+      onClick: () => setCurrentTab("bank-details"),
+      onAdd: () => {
+        openModal();
+      },
+    },
+    {
+      label: "Salary Overview",
+      id: "salary-overview",
+      isButton: true,
+      onClick: () => setCurrentTab("salary-overview"),
+      onAdd: () => {
+        openModal();
+      },
+    },
+    {
+      label: "Payslip",
+      id: "payslip",
+      isButton: true,
+      onClick: () => setCurrentTab("payslip"),
+      onAdd: () => {
+        openModal();
+      },
+    },
+    // {
+    //   label: "Leave Allowance",
+    //   onClick: () => setCurrentTab("leave-allowance"),
+    // },
+    {
+      label: "Guardian Detail",
+      id: "guardian-detail",
+      isButton: true,
+      onClick: () => setCurrentTab("guardian-detail"),
+      onAdd: () => {
+        openModal();
+      },
+    },
+  ];
 
   const tabItems = [
-    { id: "address", label: "Address", content: <TableWrapper /> },
-    { id: "documents", label: "Documents", content: <TableWrapper /> },
-    { id: "bank-details", label: "Bank Details", content: <TableWrapper /> },
+    {
+      id: "address",
+      label: "Address",
+      content: <TableWrapper onClick={() => openModal()} />,
+      onAdd: () => {
+        openModal();
+      },
+    },
+    {
+      id: "documents",
+      label: "Documents",
+      content: <TableWrapper onClick={() => openModal()} />,
+      onAdd: () => {
+        openModal();
+      },
+    },
+    {
+      id: "bank-details",
+      label: "Bank Details",
+      content: <TableWrapper onClick={() => openModal()} />,
+      onAdd: () => {
+        openModal();
+      },
+    },
     {
       id: "salary-overview",
       label: "Salary Overview",
-      content: <TableWrapper />,
+      content: <TableWrapper onClick={() => openModal()} />,
     },
-    { id: "payslip", label: "Payslip", content: <TableWrapper /> },
+    {
+      id: "payslip",
+      label: "Payslip",
+      content: <TableWrapper onClick={() => openModal()} />,
+    },
     {
       id: "leave-allowance",
       label: "Leave Allowance",
-      content: <TableWrapper />,
+      content: <LeaveAllowance onClick={openModal}>d</LeaveAllowance>,
     },
     {
       id: "guardian-detail",
       label: "Guardian Detail",
-      content: <TableWrapper />,
+      content: <TableWrapper onClick={() => openModal()} />,
     },
   ];
   // Get the content of the current tab
   const activeTab = tabItems.find((tab) => tab.id === currentTab);
+
   const tabData: {
     [key: string]: {
       columns: {
@@ -290,32 +394,32 @@ const EmployeeProfile: React.FC = () => {
       }[];
       data: any[];
       getRowKey: (row: any) => any;
-      onRowClick: (row: any) => void;
+      onClick: (row: any) => void;
     };
   } = {
     documents: {
       columns: documentColumns,
       data: documentData,
       getRowKey: (row: any) => row.id,
-      onRowClick: (row: any) => console.log("Clicked row:", row),
+      onClick: (row: any) => console.log("Clicked row:", row),
     },
     "bank-details": {
       columns: columns,
-      data: sampleTableData,
+      data: bankDetails,
       getRowKey: (row: any) => row.id,
-      onRowClick: (row: any) => console.log("Clicked row:", row),
+      onClick: (row: any) => console.log("Clicked row:", row),
     },
     payslip: {
       columns: payslipColumns,
       data: payslipData,
       getRowKey: (row: any) => row.id,
-      onRowClick: (row: any) => console.log("Clicked row:", row),
+      onClick: (row: any) => console.log("Clicked row:", row),
     },
     "salary-overview": {
       columns: salaryOverviewColumns,
       data: salaryOverviewData,
       getRowKey: (row: any) => row.id,
-      onRowClick: (row: any) => console.log("Clicked row:", row),
+      onClick: (row: any) => console.log("Clicked row:", row),
     },
   };
   const textOnlyTabs = ["address", "leave-allowance", "guardian-detail"];
@@ -330,9 +434,9 @@ const EmployeeProfile: React.FC = () => {
         <div className="flex items-center justify-center gap-3 w-full flex-col md:flex-row md:justify-center  ">
           <EmployeeCard
             employee={sampleEmployee}
-            onDocumentsClick={() => { }}
-            onBankDetailClick={() => { }}
-            onSalaryOverviewClick={() => { }}
+            onDocumentsClick={() => {}}
+            onBankDetailClick={() => {}}
+            onSalaryOverviewClick={() => {}}
           >
             {/* avatar */}
             <div className="flex-shrink-0  px-4 flex justify-center md:justify-start">
@@ -394,93 +498,77 @@ const EmployeeProfile: React.FC = () => {
             </div>
           </EmployeeCard>
 
-          {/* Popup Box Start */}
-          {/* <button
-            onClick={openModal}
-            className="px-6 py-3 rounded-lg text-blue-500"
-          >
-            Open Modal
-          </button> */}
-
-          <PopupBox
-            isOpen={isModalOpen}
-            onClose={closeModal}
-            className="max-w-2xl w-full "
-            title="Add Document"
-          >
-            <div className="p-8 ">
-              <InputField
-                onChange={() => { }}
-                label="Name"
-                type="text"
-                placeholder="Enter Name"
-                id="name"
-                name="name"
-              />
-
-              <InputField
-                onChange={() => { }}
-                label="Name"
-                type="text"
-                placeholder="Enter Name"
-                id="name"
-                name="name"
-              />
-              <div className="flex justify-end gap-4 mt-8">
-                <button
-                  type="button"
-                  className="w-40 h-12 text-lg border-2 border-blue-100 text-black bg-white rounded-lg"
-                  onClick={closeModal}
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  className="w-40 h-12 text-lg bg-blue-100 text-black hover:bg-blue-200 rounded-lg"
-                >
-                  Save
-                </button>
-              </div>
-            </div>
-          </PopupBox>
-
-          {/* Popup Box End */}
-
           <ProfileProgress />
         </div>
 
-        <ProfileTab actionButtons={actionButtons} />
-        {/* Render the content of the active tab inside TableWrapper */}
+        <ProfileTab actionButtons={actionButtons} currentTab={currentTab} />
+
+
         <div className="space-y-6">
-          {activeTab && (
-            <TableWrapper
-              title={activeTab.label}
-              // actionButton={<Button size="sm">Add</Button>}
-              columns={
-                !textOnlyTabs.includes(activeTab.id)
-                  ? tabData[activeTab.id]?.columns
-                  : undefined
-              }
-              data={
-                !textOnlyTabs.includes(activeTab.id)
-                  ? tabData[activeTab.id]?.data
-                  : undefined
-              }
-              loading={false}
-              getRowKey={
-                !textOnlyTabs.includes(activeTab.id)
-                  ? tabData[activeTab.id]?.getRowKey
-                  : undefined
-              }
-              onRowClick={
-                !textOnlyTabs.includes(activeTab.id)
-                  ? tabData[activeTab.id]?.onRowClick
-                  : undefined
-              }
-            >
-              {textOnlyTabs.includes(activeTab.id) && <ProfileAddress />}
-            </TableWrapper>
-          )}
+          {activeTab &&
+            (textOnlyTabs.includes(activeTab.id) ? (
+              <TableWrapper
+                id={tabItems.find((tab) => tab.id === activeTab.id)?.id}
+                title={activeTab.label}
+                onClick={() => setIsModalOpen(!isModalOpen)}
+                actionButton={
+                  <Button onClick={() => openModal()} size="sm">
+                    Add
+                  </Button>
+                }
+                isButton={
+                  actionButtons.find(
+                    (button) => button.label === activeTab.label
+                  )?.isButton || false
+                }
+                columns={undefined}
+                data={undefined}
+                loading={false}
+                getRowKey={undefined}
+                onRowClick={undefined}
+                isLeaveAllowance={activeTab.id === "leave-allowance"}
+              >
+                {activeTab.id === "address" && (
+                  <ProfileAddress onClick={openModal} address={address} />
+                )}
+                {activeTab.id === "documents" && <ProfileDocuments />}
+                {activeTab.id === "leave-allowance" && (
+                  <LeaveAllowance onClick={openModal}>
+                    {leaveAllowance.map((item) => (
+                      <div
+                        className="flex items-center justify-between   gap-2 shrink-0"
+                        key={item.id}
+                      >
+                        <div className="flex items-center gap-2">
+                          <h1>{item.leaveName}:- </h1>
+                          <p>{item.value}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </LeaveAllowance>
+                )}
+                {activeTab.id === "guardian-detail" && (
+                  <GuardianDetail guardianDetail={guardianDetail} />
+                )}
+              </TableWrapper>
+            ) : (
+              <TableWrapper
+                id={tabItems.find((tab) => tab.id === activeTab.id)?.id}
+                title={activeTab.label}
+                onClick={() => setIsModalOpen(!isModalOpen)}
+                actionButton={
+                  <Button onClick={() => console.log("clicked")} size="sm">
+                    Add
+                  </Button>
+                }
+                columns={tabData[activeTab.id]?.columns}
+                data={tabData[activeTab.id]?.data}
+                loading={false}
+                getRowKey={tabData[activeTab.id]?.getRowKey}
+                onRowClick={tabData[activeTab.id]?.onClick}
+                isLeaveAllowance={false}
+              />
+            ))}
         </div>
       </div>
     </>

@@ -14,11 +14,11 @@ const tabItems = [
     label: "Monthly Log",
     content: <AttendanceContent />,
   },
-  {
-    id: "attendance-request",
-    label: "Attendance Request",
-    content: <AttendanceRequestContent />,
-  },
+  // {
+  //   id: "attendance-request",
+  //   label: "Attendance Request",
+  //   content: <AttendanceRequestContent />,
+  // },
   {
     id: "attendance-details",
     label: "Attendance Details",
