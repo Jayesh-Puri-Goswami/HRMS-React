@@ -1,5 +1,6 @@
 import React from "react";
 import Card from "../ui/card/Card";
+import { motion } from "framer-motion";
 
 interface Meeting {
   day: string;
@@ -22,7 +23,12 @@ const MeetingCard: React.FC = () => {
   });
 
   return (
-    <Card className="bg-white dark:bg-white/[0.03] text-gray-900 dark:text-white border border-gray-200 dark:border-white/10 w-full ">
+    <motion.div className="w-full"
+    initial={{ opacity: 0, y: 20 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.5, delay: 0.6 }}
+    >
+     <Card className="bg-white dark:bg-white/[0.03] text-gray-900 dark:text-white border border-gray-200 dark:border-white/10 w-full ">
       <div className="flex justify-between items-center mb-4">
         <h2 className="font-medium">Meetings</h2>
         <div className="py-1 px-3 border rounded-lg text-sm text-gray-500 dark:text-gray-400 border-gray-300 dark:border-white/20">
@@ -62,6 +68,7 @@ const MeetingCard: React.FC = () => {
         </a>
       </div>
     </Card>
+    </motion.div>
   );
 };
 

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Card from "../ui/card/Card";
+import { motion } from "framer-motion";
 
 interface Announcement {
   title: string;
@@ -33,7 +34,12 @@ const AnnouncementsCard: React.FC = () => {
   const currentAnnouncement = announcements[currentIndex];
 
   return (
-    <Card className="bg-white dark:bg-white/[0.03] text-gray-900 dark:text-white border border-gray-200 dark:border-white/10">
+    <motion.div className=""
+    initial={{ opacity: 0, y: 20 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.5, delay: 0.6 }}
+    >
+      <Card className="bg-white dark:bg-white/[0.03] text-gray-900 dark:text-white border border-gray-200 dark:border-white/10">
       <div className="flex justify-between items-center mb-3">
         <h2 className="font-medium mb-2">Announcement</h2>
         <div className="py- px-4 border rounded-lg text-sm text-gray-600 dark:text-gray-300 mb-2">
@@ -63,6 +69,7 @@ const AnnouncementsCard: React.FC = () => {
         </button>
       </div>
     </Card>
+    </motion.div>
   );
 };
 
