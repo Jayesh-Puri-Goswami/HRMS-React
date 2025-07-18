@@ -1,25 +1,63 @@
 import { NavItem } from '../types/Sidebar';
-import { User, CalendarSync, TreePalm, Calendar, FileText } from 'lucide-react';
+import { User, CalendarSync, TreePalm, Calendar, FileText, Users, Plane, Wallet, CalendarX, Megaphone, CalendarDays, CalendarCheck } from 'lucide-react';
 import { CalenderIcon, ListIcon } from '../icons';
 
 // Role-based sidebar nav items
 export const SIDEBAR_NAV_ITEMS: Record<string, NavItem[]> = {
-  
-    Admin: [
+
+  Admin: [
     {
       icon: <User />,
       name: 'Admin Dashboard',
       path: '/admin-dashboard',
     },
-    // Add more admin-specific items here
   ],
   HR: [
     {
       icon: <User />,
-      name: 'HR Dashboard',
-      path: '/hr-dashboard',
+      name: 'HR Profile',
+      path: '/hr-profile',
     },
-    // Add more HR-specific items here
+    {
+      icon: <CalendarCheck />,
+      name: 'Attendance',
+      path: '/hr-attendance',
+    },
+    {
+      icon: <Users />,
+      name: 'Employee',
+      path: '/hr-employee',
+    },
+    {
+      icon: <Plane />,
+      name: 'Leaves',
+      path: '/hr-leaves',
+    },
+    {
+      icon: <Wallet />,
+      name: 'Salary',
+      path: '/hr-salary',
+    },
+    {
+      icon: <FileText />,
+      name: 'Payslips',
+      path: '/hr-payslips',
+    },
+    {
+      icon: <CalendarDays />,
+      name: 'Events',
+      path: '/hr-events',
+    },
+    {
+      icon: <CalendarX />,
+      name: 'Holiday',
+      path: '/hr-holiday',
+    },
+    {
+      icon: <Megaphone />,
+      name: 'Announcements',
+      path: '/hr-announcements',
+    }
   ],
   Employee: [
     {
@@ -49,12 +87,12 @@ export const SIDEBAR_NAV_ITEMS: Record<string, NavItem[]> = {
     },
     {
       name: 'Calendar',
-      icon: <Calendar/>,
+      icon: <Calendar />,
       path: '/employee-calendar'
     },
     {
       name: 'Policies',
-      icon:<FileText/>,
+      icon: <FileText />,
       path: '/employee-policies'
     }
   ],

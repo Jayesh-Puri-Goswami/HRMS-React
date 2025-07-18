@@ -6,7 +6,7 @@ import StatusBadge from "../ui/badge/StatusBadge";
 import DataTable from "../ui/datatable/DataTable";
 import DateRange from "../../components/ui/daterange/DateRange";
 import BadgeCard from "../../components/ui/card/BadgeCard";
-import DonutChart from "../EmployeeProfile/DonutChart";
+// import DonutChart from "../charts/donut/DonutChart";
 import ProfileProgress from "../EmployeeProfile/ProfileProgress";
  
 const attendanceData: AttendanceRow[] = [

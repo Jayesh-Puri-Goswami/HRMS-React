@@ -59,6 +59,8 @@ layer(base);
   --color-white: #ffffff;
   --color-black: #000000;
 
+  --color-themeBrand : #465fff;
+
   --color-brand-25: #f2f7ff;
   --color-brand-50: #ecf3ff;
   --color-brand-100: #dde9ff;

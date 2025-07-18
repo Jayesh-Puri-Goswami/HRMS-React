@@ -1,162 +1,119 @@
-import React from "react";
+import React, { useState } from "react";
+import { motion } from "framer-motion";
+import RequestLeaveModal from './Modal/RequestLeave.Modal'
 import StatsCard from "../ui/card/StatsCard";
-import DataTable from "../ui/datatable/DataTable";
-import StatusBadge from "../ui/badge/StatusBadge";
+import Button from "../ui/button/Button";
 
-interface AttendanceRow {
-  name: string;
-  avatar?: string;
-  ["Date&Time"]: string;
-  leaveDeduction: string;
-  leaveType: string;
-  attachment: string;
-  status?: string;
-  statusType: "success" | "warning" | "error";
+interface LeaveSummaryCardsProps {
+  className?: string;
 }
 
-interface ColumnConfig<T> {
-  key: keyof T;
-  header: string;
-  render?: (row: T) => React.ReactNode;
-}
+const LeaveSummaryCards: React.FC<LeaveSummaryCardsProps> = ({ className = "" }) => {
 
-const attendanceData: AttendanceRow[] = [
-  {
-    name: "Ariana Gomez",
-    avatar: "https://i.pravatar.cc/300?img=5",
-    "Date&Time": "09 Jul 2025, 10:30 AM",
-    leaveDeduction: "0.5",
-    leaveType: "Sick Leave",
-    attachment: "doctor-note.pdf",
-    status: "Approved",
-    statusType: "success",
-  },
-  {
-    name: "Ravi Malhotra",
-    avatar: "https://i.pravatar.cc/300?img=10",
-    "Date&Time": "08 Jul 2025, 2:00 PM",
-    leaveDeduction: "1",
-    leaveType: "Casual Leave",
-    attachment: "casual-request.jpg",
-    status: "Pending",
-    statusType: "warning",
-  },
-  {
-    name: "Emma Watson",
-    avatar: "https://i.pravatar.cc/300?img=12",
-    "Date&Time": "07 Jul 2025, 9:00 AM",
-    leaveDeduction: "1",
-    leaveType: "Work From Home",
-    attachment: "request.pdf",
-    status: "Rejected",
-    statusType: "error",
-  },
-  {
-    name: "Kabir Sharma",
-    avatar: "https://i.pravatar.cc/300?img=16",
-    "Date&Time": "06 Jul 2025, 11:15 AM",
-    leaveDeduction: "0.5",
-    leaveType: "Emergency Leave",
-    attachment: "emergency-note.pdf",
-    status: "Approved",
-    statusType: "success",
-  },
-];
+  const [isOpen, setIsOpen] = useState(false)
 
-function LeaveSummary() {
-  const columns: ColumnConfig<AttendanceRow>[] = [
-    {
-      key: "name",
-      header: "Profile",
-      render: (row) => (
-        <div className="flex items-center gap-2">
-          {row.avatar && (
-            <img
-              src={row.avatar}
-              alt={row.name}
-              className="w-8 h-8 rounded-full object-cover"
-            />
-          )}
-          <span>{row.name}</span>
-        </div>
-      ),
-    },
-    {
-      key: "Date&Time",
-      header: "Date & Time",
-      render: (row) => <div className="text-center"> {row["Date&Time"]} </div>,
-    },
-    {
-      key: "leaveDeduction",
-      header: "Leave Deduction",
-      render: (row) => (
-        <div className="text-center"> {row.leaveDeduction} </div>
-      ),
-    },
-
-    {
-      key: "leaveType",
-      header: "Leave Type",
-      render: (row) => <div className="text-center"> {row.leaveType} </div>,
-    },
-    {
-      key: "attachment",
-      header: "Attachment",
-      render: (row) => <div className="text-center"> {row.attachment} </div>,
-    },
-    {
-      key: "status",
-      header: "Status",
-      render: (row) => (
-        <div className="text-center">
-          <StatusBadge label={row.status} status={row.statusType} />
-        </div>
-      ),
-    },
-  ];
 
   return (
-    <>
-      <div className="px-2 ">
-        <div className="flex flex-wrap md:gap-4 gap-0 justify-evenly md:justify-between ">
-          <StatsCard
-            className="flex-1 sm:w-[250px] md: h-[70px]  scale-75 sm:scale-75 md:scale-90"
-            labelClassName="text-xs sm:text-sm md:text-base"
-            boxClassName="p-1"
-            valueClassName="text-base"
-            label="Leave Approved"
-            value={2}
-          />
-          <StatsCard
-            className="flex-1 sm:w-[250px] md: h-[70px]  scale-75 sm:scale-75 md:scale-90"
-            labelClassName="text-xs sm:text-sm md:text-base"
-            boxClassName="p-1"
-            valueClassName="text-base"
-            label="Upcoming Leave"
-            value={1}
-          />
-          <StatsCard
-            className="flex-1 sm:w-[250px] md: h-[70px]  scale-75 sm:scale-75 md:scale-90"
-            labelClassName="text-xs sm:text-sm md:text-base"
-            boxClassName="p-1"
-            valueClassName="text-base"
-            label="Pending Request"
-            value={0}
-          />
-        </div>
-      </div>
+    <div className={` ${className}`}>
+      <RequestLeaveModal isOpen={isOpen} onClose={()=> setIsOpen(!isOpen)} />
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+        {/* Leave Summary Card */}
+        <motion.div
+          className="rounded-3xl border p-6 shadow-sm  bg-white dark:bg-white/[0.03] dark:text-white border-gray-200 dark:border-white/10 flex flex-col justify-between"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+        >
+          <div className="mb-4">
+            <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-4">
+              Leave Summary
+            </h3>
+            <div className="flex h-full flex-wrap md:gap-4 gap-0 justify-evenly md:justify-between">
+              <StatsCard
+                className="flex-1 sm:w-[250px] md: h-[70px]  scale-75 sm:scale-75 md:scale-90"
+                labelClassName="text-xs sm:text-sm md:text-base"
+                boxClassName="p-1"
+                valueClassName="text-base"
+                label="Leave Approved"
+                value={2}
+              />
+              <StatsCard
+                className="flex-1 sm:w-[250px] md: h-[70px]  scale-75 sm:scale-75 md:scale-90"
+                labelClassName="text-xs sm:text-sm md:text-base"
+                boxClassName="p-1"
+                valueClassName="text-base"
+                label="Upcoming Leave"
+                value={1}
+              />
+              <StatsCard
+                className="flex-1 sm:w-[250px] md: h-[70px]  scale-75 sm:scale-75 md:scale-90"
+                labelClassName="text-xs sm:text-sm md:text-base"
+                boxClassName="p-1"
+                valueClassName="text-base"
+                label="Pending Request"
+                value={0}
+              />
+            </div>
+          </div>
 
-      <div className="mt-4 px-2">
-        <DataTable
-          showActionButton={false}
-          showFilter={false}
-          showSearch={false}
-          data={attendanceData}
-          columns={columns}
-        />
+          <div className="">
+            <Button onClick={()=> setIsOpen(true)} className="w-full" variant="primary">
+              Request Leave
+            </Button>
+          </div>
+        </motion.div>
+
+        {/* Leave Available Card */}
+        <motion.div
+          className="rounded-3xl border p-6 shadow-sm  bg-white dark:bg-white/[0.03] dark:text-white border-gray-200 dark:border-white/10"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: "easeOut", delay: 0.2 }}
+        >
+          <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-4">
+            Leave Available
+          </h3>
+
+          {/* Leave Allowance Section */}
+          <div className="mb-4">
+            <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              Leave Allowance
+            </h4>
+            <div className="grid grid-cols-2 gap-2 text-xs text-gray-600 dark:text-gray-400">
+              <div>Casual Leave: 8</div>
+              <div>Personal Leave: 12</div>
+              <div>Medical Leave: 6</div>
+              <div>Leave Without Pay: 0</div>
+            </div>
+          </div>
+
+          {/* Divider */}
+          <div className="border-t border-gray-200 dark:border-white/10 my-4"></div>
+
+          {/* Leave Available Section */}
+          <div>
+            <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
+              Available Balance
+            </h4>
+            <div className="space-y-2">
+              <div className="flex justify-between items-center bg-themeBackgroundColor dark:bg-white/[0.05] px-3 py-2 rounded-lg">
+                <span className="text-sm text-gray-700 dark:text-gray-300">Casual Leave</span>
+                <span className="text-sm font-semibold text-gray-800 dark:text-white">6</span>
+              </div>
+              <div className="flex justify-between items-center bg-themeBackgroundColor dark:bg-white/[0.05] px-3 py-2 rounded-lg">
+                <span className="text-sm text-gray-700 dark:text-gray-300">Personal Leave</span>
+                <span className="text-sm font-semibold text-gray-800 dark:text-white">12</span>
+              </div>
+              <div className="flex justify-between items-center bg-themeBackgroundColor dark:bg-white/[0.05] px-3 py-2 rounded-lg">
+                <span className="text-sm text-gray-700 dark:text-gray-300">Medical Leave</span>
+                <span className="text-sm font-semibold text-gray-800 dark:text-white">6</span>
+              </div>
+            </div>
+          </div>
+        </motion.div>
       </div>
-    </>
+    </div>
   );
-}
+};
 
-export default LeaveSummary;
+export default LeaveSummaryCards;

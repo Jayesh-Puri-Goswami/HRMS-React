@@ -26,7 +26,7 @@ const EmployeeCardSkeleton: React.FC<{ className?: string }> = ({
     initial={{ opacity: 0, y: 20 }}
     animate={{ opacity: 1, y: 0 }}
     className={clsx(
-      "bg-white dark:bg-themeBackgroundColorDark rounded-2xl p-6 shadow-sm border border-gray-100 dark:border-gray-800 animate-pulse",
+      "bg-white dark:bg-themeBackgroundColorDark rounded-2xl p-6 shadow-sm border border-gray-100 dark:border-gray-800 animate-pulse h-64",
       className
     )}
   >
@@ -104,7 +104,7 @@ const EmployeeProfileCard: React.FC<EmployeeProfileCardProps> = ({
         animate={{ opacity: 1, y: 0, scale: 1 }}
         whileHover={{ scale: 1.02, transition: { duration: 0.2 } }}
         className={clsx(
-          "bg-white  dark:bg-themeBackgroundColorDark rounded-2xl p-8 shadow-sm border border-gray-100 dark:border-gray-800 hover:shadow-lg hover:border-gray-200 dark:hover:border-gray-600 transition-all duration-300 cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900",
+          "bg-white lg:h-64 flex justify-center items-center dark:bg-themeBackgroundColorDark rounded-2xl p-8 shadow-sm border border-gray-100 dark:border-gray-800 hover:shadow-lg hover:border-gray-200 dark:hover:border-gray-600 transition-all duration-300 cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900",
           className
         )}
         onClick={() => onCardClick?.(employeeProfileCardData)}
@@ -112,10 +112,10 @@ const EmployeeProfileCard: React.FC<EmployeeProfileCardProps> = ({
         role="button"
         aria-label={`Employee card for ${employeeProfileCardData.name}`}
       >
-        <div className="flex flex-col gap-3 md:gap-6 lg:flex-row">
+        <div className="flex flex-col  w-full gap-3 md:gap-6 lg:flex-row ">
           {/* Avatar */}
           {showAvatar && (
-            <div className="flex-shrink-0 mx-auto lg:mx-0">
+            <div className="flex-shrink-0  mx-auto lg:mx-0">
               <div className="rounded-full bg-blue-100 dark:bg-gray-700 flex items-center justify-center overflow-hidden ring-4 ring-blue-50 dark:ring-gray-600 w-24 h-24 lg:w-32 lg:h-32">
                 {employeeProfileCardData.avatar ? (
                   <img
@@ -166,7 +166,7 @@ const EmployeeProfileCard: React.FC<EmployeeProfileCardProps> = ({
 
           {/* Work Info */}
           {showWorkInfo && (
-            <div className="space-y-4 lg:min-w-[200px]">
+            <div className="space-y-4 flex-1 lg:min-w-[200px]">
               {employeeProfileCardData.designation && (
                 <InfoItem
                   icon={<User className="w-4 h-4" />}

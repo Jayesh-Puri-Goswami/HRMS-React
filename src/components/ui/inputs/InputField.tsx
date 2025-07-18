@@ -7,6 +7,8 @@ interface InputFieldProps {
   id: string;
   name: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  value ? : string;
+  className ?: string
 }
 
 const InputField = ({

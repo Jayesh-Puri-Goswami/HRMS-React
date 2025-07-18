@@ -7,8 +7,8 @@ interface ModalProps {
   onClose: () => void;
   className?: string;
   children: React.ReactNode;
-  showCloseButton?: boolean; 
-  isFullscreen?: boolean; 
+  showCloseButton?: boolean; // New prop to control close button visibility
+  isFullscreen?: boolean; // Default to false for backwards compatibility
 }
 
 export const AddressModel: React.FC<ModalProps> = ({
@@ -82,7 +82,7 @@ export const AddressModel: React.FC<ModalProps> = ({
                 whileHover={{ rotate: 90, scale: 1 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={onClose}
-                className="absolute right-3 top-3 z-999 flex h-9.5 w-9.5 items-center justify-center rounded-full bg-themeBackgroundColor/80 text-gray-500 transition-colors hover:bg-gray-200 hover:text-gray-700 dark:bg-themeBackgroundColorDark/20 dark:text-white dark:hover:bg-themeBackgroundColorDark/50 dark:hover:text-white sm:right-6 sm:top-6 sm:h-11 sm:w-11"
+                className="absolute right-3  top-3 z-999 flex h-9.5 w-9.5 items-center justify-center rounded-full bg-themeBackgroundColor/80 text-gray-500 transition-colors hover:bg-gray-200 hover:text-gray-700 dark:bg-themeBackgroundColorDark/20 dark:text-white dark:hover:bg-themeBackgroundColorDark/50 dark:hover:text-white sm:right-6 sm:top-6 "
               >
                 <X className="w-5 h-5" />
               </motion.button>

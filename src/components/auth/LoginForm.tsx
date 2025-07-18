@@ -61,7 +61,7 @@ export default function LoginForm() {
   // Animation variants (same as AI code)
   const containerVariants = { hidden: { opacity: 0, y: 50 }, visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut", staggerChildren: 0.1 } } };
   const itemVariants = { hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } } };
-  const buttonVariants = { idle: { scale: 1 }, hover: { scale: 1.02 }, tap: { scale: 0.98 } };
+  const buttonVariants = { idle: { scale: 1 }, hover: { scale: 1 }, tap: { scale: 0.98 } };
   const logoVariants = { hidden: { scale: 0, rotate: -180 }, visible: { scale: 1, rotate: 0, transition: { type: "spring", stiffness: 260, damping: 20, delay: 0.2 } } };
 
   return (

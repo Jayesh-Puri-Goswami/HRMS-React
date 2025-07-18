@@ -20,10 +20,14 @@ const CheckInButton: React.FC = () => {
     shiftLunchTime : 0,
     shiftBreakTime : 0,
     status: '',
+    pauses: [],
   });
   const [notes, setNotes] = useState("");
   const [totalHours, setTotalHours] = useState("0");
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+
+  const [pauseResumeLoading, setPauseResumeLoading] = useState(false);
 
 
   const { token } = getAuth();
@@ -46,12 +50,36 @@ const CheckInButton: React.FC = () => {
     return Math.floor((to.getTime() - from.getTime()) / 1000);
   };
 
-  const startTimerFrom = (startTime: Date) => {
+  // Helper to sum all paused ms
+  const getTotalPausedMs = (pauses: { pauseTime: string; resumeTime?: string }[] = [], isPaused: boolean) => {
+    let total = 0;
+    for (let i = 0; i < pauses.length; i++) {
+      const pause = pauses[i];
+      const start = new Date(pause.pauseTime).getTime();
+      const end = pause.resumeTime ? new Date(pause.resumeTime).getTime() : (isPaused && i === pauses.length - 1 ? Date.now() : start);
+      total += Math.max(0, end - start);
+    }
+    return total;
+  };
+
+  // Timer logic: always subtract total paused ms
+  const startTimerFrom = (startTime: Date, pauses: { pauseTime: string; resumeTime?: string }[] = [], isPaused: boolean) => {
     if (intervalRef.current) clearInterval(intervalRef.current);
+    if (isPaused) {
+      // If paused, set totalTime once and don't update
+      setCheckInData((prev) => {
+        const now = new Date();
+        const totalPausedMs = getTotalPausedMs(pauses, isPaused);
+        const totalTime = Math.floor((now.getTime() - startTime.getTime() - totalPausedMs) / 1000);
+        return { ...prev, totalTime };
+      });
+      return;
+    }
     intervalRef.current = setInterval(() => {
       setCheckInData((prev) => {
         const now = new Date();
-        const totalTime = getElapsedSeconds(startTime, now);
+        const totalPausedMs = getTotalPausedMs(pauses, false);
+        const totalTime = Math.floor((now.getTime() - startTime.getTime() - totalPausedMs) / 1000);
         return { ...prev, totalTime };
       });
     }, 1000);
@@ -78,17 +106,18 @@ const CheckInButton: React.FC = () => {
           const checkInTime = new Date(attendance.checkInTime);
           setCheckInData({
             startTime: checkInTime,
-            totalTime: getElapsedSeconds(checkInTime, new Date()),
+            totalTime: 0, // will be set by timer
             isActive: true,
-            isPaused: false,
+            isPaused: attendance.isPaused,
             shiftLunchTime: attendance.shiftLunchTime,
             shiftBreakTime: attendance.shiftBreakTime,
             status: attendance.status,
+            pauses: attendance.pauses || [],
           });
           setTotalHours(attendance.totalHours || "0");
           if (attendance.totalHours === "0") {
             setIsCheckedIn(true);
-            startTimerFrom(checkInTime);
+            startTimerFrom(checkInTime, attendance.pauses || [], attendance.isPaused);
           } else {
             setIsCheckedIn(false);
             stopTimer();
@@ -104,6 +133,7 @@ const CheckInButton: React.FC = () => {
             shiftLunchTime: 0,
             shiftBreakTime: 0,
             status: '',
+            pauses: [],
           });
         }
       } catch (err) {
@@ -123,6 +153,57 @@ const CheckInButton: React.FC = () => {
     };
   }, [token, baseURL]);
 
+  // Move fetchTodayAttendance to top-level for use in handleToggleTimer
+  const fetchTodayAttendance = async () => {
+    if (!token) return;
+    setIsLoading(true);
+    try {
+      const response = await axios.get(`${baseURL}/employee/today/attendance`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const attendance = response.data;
+      if (attendance && attendance.checkInTime) {
+        const checkInTime = new Date(attendance.checkInTime);
+        setCheckInData({
+          startTime: checkInTime,
+          totalTime: 0, // will be set by timer
+          isActive: true,
+          isPaused: attendance.isPaused,
+          shiftLunchTime: attendance.shiftLunchTime,
+          shiftBreakTime: attendance.shiftBreakTime,
+          status: attendance.status,
+          pauses: attendance.pauses || [],
+        });
+        setTotalHours(attendance.totalHours || "0");
+        if (attendance.totalHours === "0") {
+          setIsCheckedIn(true);
+          startTimerFrom(checkInTime, attendance.pauses || [], attendance.isPaused);
+        } else {
+          setIsCheckedIn(false);
+          stopTimer();
+        }
+      } else {
+        setIsCheckedIn(false);
+        setTotalHours("0");
+        setCheckInData({
+          startTime: new Date(),
+          totalTime: 0,
+          isActive: false,
+          isPaused: false,
+          shiftLunchTime: 0,
+          shiftBreakTime: 0,
+          status: '',
+          pauses: [],
+        });
+      }
+    } catch (err) {
+      setError("Failed to fetch attendance");
+      setIsCheckedIn(false);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const handleCheckIn = async () => {
     try {
       setIsLoading(true);
@@ -136,16 +217,17 @@ const CheckInButton: React.FC = () => {
         const checkInTime = new Date(attendance.checkInTime);
         setCheckInData({
           startTime: checkInTime,
-          totalTime: getElapsedSeconds(checkInTime, new Date()),
+          totalTime: 0, // will be set by timer
           isActive: true,
-          isPaused: false,
+          isPaused: attendance.isPaused,
           shiftLunchTime: attendance.shiftLunchTime,
           shiftBreakTime: attendance.shiftBreakTime,
           status: attendance.status,
+          pauses: attendance.pauses || [],
         });
         setIsCheckedIn(true);
         setTotalHours("0");
-        startTimerFrom(checkInTime);
+        startTimerFrom(checkInTime, attendance.pauses || [], attendance.isPaused);
       }
       setShowCheckInModal(false);
     } catch (error: any) {
@@ -205,22 +287,32 @@ const CheckInButton: React.FC = () => {
   };
 
   // Handle toggle pause/resume
-  const handleToggleTimer = () => {
-    if (checkInData.isPaused) {
-      setCheckInData((prev) => ({ ...prev, isPaused: false }));
-      startTimerFrom(checkInData.startTime);
-    } else {
-      setCheckInData((prev) => ({ ...prev, isPaused: true }));
-      stopTimer();
+  const handleToggleTimer = async () => {
+    if (pauseResumeLoading) return;
+    setPauseResumeLoading(true);
+    setError("");
+    try {
+      if (!token) throw new Error("No auth token");
+      if (!checkInData.isPaused) {
+        // Pause
+        await axios.get(`${baseURL}/employee/pauseTracker`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        // Refetch attendance to get updated pauses
+        await fetchTodayAttendance();
+      } else {
+        // Resume
+        await axios.get(`${baseURL}/employee/resumeTracker`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        // Refetch attendance to get updated pauses
+        await fetchTodayAttendance();
+      }
+    } catch (err: any) {
+      setError(err?.response?.data?.message || err?.message || "Failed to update tracker");
+    } finally {
+      setPauseResumeLoading(false);
     }
-  };
-
-  // Handle save check out
-  const handleSaveCheckOut = () => {
-
-    handleCheckOut()
-    // Reset state
-
   };
 
   useEffect(() => {
@@ -253,6 +345,8 @@ const CheckInButton: React.FC = () => {
           <ToggleButton
             checked={checkInData.isPaused}
             onChange={handleToggleTimer}
+            id="pause-resume-toggle"
+            disabled={pauseResumeLoading}
           />
           <button
             onClick={()=>setShowCheckOutModal(!showCheckOutModal)}

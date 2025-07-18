@@ -26,6 +26,7 @@ type DataTableProps<T> = {
   currentPage?: number;
   limit?: number;
   onPageChange?: (page: number) => void;
+  filterDirection? : 'right' | 'left'
 };
 
 export default function DataTable<T extends { [key: string]: any }>({
@@ -40,6 +41,7 @@ export default function DataTable<T extends { [key: string]: any }>({
   currentPage = 1,
   limit = 10,
   onPageChange,
+  filterDirection = 'right'
 }: DataTableProps<T>) {
   // Calculate paginated data
   const startIdx = (currentPage - 1) * limit;
@@ -48,15 +50,15 @@ export default function DataTable<T extends { [key: string]: any }>({
 
   return (
     <div className="space-y-2">
-      {(showSearch || showActionButton) && (
+      {(showSearch || showActionButton || showFilter) && (
         <motion.div
           className="flex flex-row sm:flex-row sm:items-center sm:justify-between gap-2"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
         >
-          {showSearch && <SearchBar />}
-          <div className="w-full flex items-center justify-end">
+          {showSearch && <SearchBar  />}
+          <div className={`w-full flex items-center ${filterDirection === 'right' ? 'justify-end' : 'justify-start'}`}>
             {showActionButton && <ToggleButton />}
             {showFilter && <div className="ml-2">{filter}</div>}
           </div>
@@ -88,7 +90,7 @@ export default function DataTable<T extends { [key: string]: any }>({
                   {columns.map((col, idx) => (
                     <th
                       key={idx}
-                      className="text-center py-2 px-4 md:py-4 md:px-6 text-xs md:text-sm lg:text-lg font-medium text-gray-600 dark:text-gray-300"
+                      className="text-center py-2 px-4 md:py-4 md:px-6 text-xs md:text-sm lg:text-sm font-medium text-gray-600 dark:text-gray-300"
                     >
                       {col.header}
                     </th>

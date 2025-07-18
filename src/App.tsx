@@ -17,6 +17,10 @@ import { Navigate, Outlet } from "react-router-dom";
 import { useSelector } from "react-redux";
 import EmployeeCalendar from "./pages/Calendar/EmployeeCalendar";
 import EmployeePolicy from "./pages/Policy/EmployeePolicy";
+import HrAttendance from "./pages/Attendance/HrAttendance";
+import HRProfile from "./pages/Profile/HRProfile";
+import { RedirectRoot } from "./lib/RedirectRoot";
+import Unauthorized from "./pages/OtherPage/Unauthorized";
 
 interface ProtectedRouteProps {
   allowedRoles: string[];
@@ -25,21 +29,17 @@ interface ProtectedRouteProps {
 const ProtectedRoute = ({ allowedRoles }: ProtectedRouteProps) => {
   const user = useSelector((state: any) => state.auth.user);
   const token = localStorage.getItem("token");
-
   if (!user && !token) {
     return <Navigate to="/login" replace />;
   }
-
-  console.log(user);
-  
-
+  // console.log(user);
   if (!allowedRoles.includes(user?.role)) {
     return <Navigate to="/unauthorized" replace />;
   }
 
   return <Outlet />;
 };
-import HrAttendance from "./pages/Attendance/HrAttendance";
+
 
 
 export default function App() {
@@ -54,6 +54,7 @@ export default function App() {
 
     return () => clearTimeout(timer)
   }, [])
+  
 
   if (isLoading) {
     return <Loader />
@@ -64,10 +65,10 @@ export default function App() {
       <Router>
         <ScrollToTop />
         <Routes>
-          <Route path="/" element={<Login />} />
+          <Route path="/" element={<RedirectRoot />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
-          <Route path="/unauthorized" element={<NotFound />} />
+          <Route path="/unauthorized" element={<Unauthorized />} />
           {/* Auth Ends */}
 
           {/* Protected HR Routes  Starts */}
@@ -75,6 +76,7 @@ export default function App() {
             <Route element={<AppLayout />}>
               <Route path="/hr-dashboard" element={<HRDashboard />} />
               <Route path="/hr-attendance" element={<HRDashboard />} />
+              <Route path="/hr-profile" element={<HRProfile />} />
             </Route>
           </Route>
           {/* Protected HR Routes  Ends */}

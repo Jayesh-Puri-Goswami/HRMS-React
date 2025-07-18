@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import DataTable from "../../tables/Table/DataTable";
 import { motion } from "framer-motion";
-import LeaveAllowance from "../../EmployeeProfile/LeaveAllowance";
+// import LeaveAllowance from "../../EmployeeProfile/LeaveAllowance";
 import TableHeader from "./TableHeader";
 import { useEffect, useState } from "react";
-import AddressPopup from "../../EmployeeProfile/ProfileAddress/AddressPopup";
+// import AddressPopup from "../../EmployeeProfile/ProfileAddress/AddressPopup";
 
 interface TableWrapperProps<T> {
   title?: string | React.ReactNode;
@@ -107,7 +107,7 @@ function TableWrapper<T extends object>({
           )
         )}
 
-        {isLeaveAllowance && (
+        {/* {isLeaveAllowance && (
           <>
             <LeaveAllowance
               title="Leave Allowance"
@@ -130,7 +130,7 @@ function TableWrapper<T extends object>({
               </div>
             </LeaveAllowance>
           </>
-        )}
+        )} */}
 
         {/*
         // Example usage for AddressPopup if you want to show it for 'address' tab

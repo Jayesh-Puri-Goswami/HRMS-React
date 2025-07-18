@@ -54,13 +54,13 @@ export const Modal: React.FC<ModalProps> = ({
   if (!isOpen) return null;
 
   const contentClasses = isFullscreen
-    ? "w-full h-full "
-    : "relative w-full rounded-3xl bg-white/50  dark:bg-white/[0.09] shadow-xl";
+    ? "w-full h-full rounded-3xl "
+    : "relative w-full max-w-xl rounded-3xl bg-white/50  dark:bg-white/[0.09] shadow-xl rounded-3xl";
 
   return (
     <>
       <AnimatePresence>
-        <div className="fixed inset-0 flex items-center justify-center overflow-y-auto modal z-99999">
+        <div className="fixed inset-0 flex items-center justify-center overflow-y-auto modal z-99999 ">
           {!isFullscreen && (
             <motion.div
               initial={{ opacity: 0 }}

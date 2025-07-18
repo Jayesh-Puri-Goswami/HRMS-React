@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import clsx from "clsx";
-import AddressPopup from "../../EmployeeProfile/ProfileAddress/AddressPopup";
+// import { AddressModel } from "../../EmployeeProfile/EmployeModels/Address.Model";
 
 export interface TableHeaderProps {
   // Header content
@@ -92,13 +92,13 @@ const TableHeader: React.FC<TableHeaderProps> = ({
       )}
 
       {/* Show AddressPopup only for address tab and when Add is clicked */}
-      {id === "address" && showAddressPopup && (
-        <AddressPopup
+      {/* {id === "address" && showAddressPopup && (
+        <AddressModel
           onClose={() => setShowAddressPopup(false)}
           modalData={{ type: "Permanent Address", address: "" }}
           isOpen={showAddressPopup}
         />
-      )}
+      )} */}
     </CardWrapper>
   );
 };

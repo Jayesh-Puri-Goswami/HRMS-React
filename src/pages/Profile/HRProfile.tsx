@@ -13,10 +13,8 @@ import {
 } from "../../constant/EmployeeProfile";
 import {
   AddressSkeleton,
-  BankDetailsSkeleton,
   DocumentsSkeleton,
   GenericSkeleton,
-  GraduationSkeleton,
 } from "../../components/EmployeeProfile/skeletons/LoadingSkeletons";
 import AddressContent from "../../components/EmployeeProfile/AddressContent";
 import DocumentsContent from "../../components/EmployeeProfile/DocumentsContent";
@@ -26,7 +24,7 @@ import PayslipContent from "../../components/EmployeeProfile/PayslipContent";
 import ProfileGraduation from "../../components/EmployeeProfile/ProfileGraduation";
 import Card from "../../components/ui/card/Card";
 
-const EmployeeProfile = () => {
+const HRProfile = () => {
   const [activeTab, setActiveTab] = useState<string>("address");
   const [loading, setLoading] = useState(false);
 
@@ -44,14 +42,6 @@ const EmployeeProfile = () => {
           return <AddressSkeleton />;
         case "documents":
           return <DocumentsSkeleton />;
-        case "bank-detail":
-          return <BankDetailsSkeleton />;
-        case "salary-overview":
-          return <BankDetailsSkeleton />;
-        case "payslip":
-          return <BankDetailsSkeleton />;
-        case "graduation-details":
-          return <GraduationSkeleton />;
         default:
           return <GenericSkeleton />;
       }
@@ -86,14 +76,14 @@ const EmployeeProfile = () => {
 
       {/* Top Section */}
       <div className="flex flex-col lg:flex-row my-5 gap-6">
-        <div className="w-full lg:basis-3/5 h">
+        <div className="w-full lg:basis-3/5">
           <EmployeeProfileCard
             key={employeeProfileCardData.id}
             employee={employeeProfileCardData}
             variant="default"
             onCardClick={(employee) => console.log("Clicked:", employee)}
             animationDelay={0.1}
-            className="hover:scale-[1] transition-transform duration-200"
+            className="hover:scale-[1.01] transition-transform duration-200"
           />
         </div>
         <div className="w-full lg:basis-2/5">
@@ -119,4 +109,4 @@ const EmployeeProfile = () => {
   );
 };
 
-export default EmployeeProfile;
+export default HRProfile;

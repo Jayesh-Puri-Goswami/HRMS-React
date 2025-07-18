@@ -1,3 +1,8 @@
+export interface PausePeriod {
+  pauseTime: string;
+  resumeTime?: string;
+}
+
 export interface CheckInData {
   startTime: Date;
   totalTime: number;
@@ -12,7 +17,7 @@ export interface CheckInData {
   shiftLunchTime : number;
   shiftBreakTime : number;
   status : string;
-  
+  pauses?: PausePeriod[];
 }
 
 export interface HeaderProps {
