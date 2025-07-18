@@ -891,3 +891,21 @@ span.flatpickr-weekday,
   transition-delay: calc(0s + 0.1s * 1.3), calc(0s + 0.1s * 1.3);
 }
 /* Theme Toggler Button ends */
+
+
+/* ::selection {
+  background-color: #534ca9;
+  color: #ffffff;
+} */
+
+::selection {
+  background-color: #534ca9;
+  color: #ffffff;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
+}
+
+::-moz-selection {
+  background-color: #534ca9;
+  color: #ffffff;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
+}

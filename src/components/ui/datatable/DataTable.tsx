@@ -26,7 +26,8 @@ type DataTableProps<T> = {
   currentPage?: number;
   limit?: number;
   onPageChange?: (page: number) => void;
-  filterDirection? : 'right' | 'left'
+  filterDirection? : 'right' | 'left' | 'between'
+  actionButton ?: React.ReactNode
 };
 
 export default function DataTable<T extends { [key: string]: any }>({
@@ -41,7 +42,8 @@ export default function DataTable<T extends { [key: string]: any }>({
   currentPage = 1,
   limit = 10,
   onPageChange,
-  filterDirection = 'right'
+  filterDirection = 'right',
+  actionButton
 }: DataTableProps<T>) {
   // Calculate paginated data
   const startIdx = (currentPage - 1) * limit;
@@ -57,25 +59,25 @@ export default function DataTable<T extends { [key: string]: any }>({
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
         >
-          {showSearch && <SearchBar  />}
-          <div className={`w-full flex items-center ${filterDirection === 'right' ? 'justify-end' : 'justify-start'}`}>
-            {showActionButton && <ToggleButton />}
+          <div className={`w-full flex items-center flex-col  sm:flex-row gap-3  ${filterDirection === 'right' ? 'justify-end' : filterDirection === 'left' ? 'justify-start' : 'justify-between'}`}>
+          {title && (
+            <motion.h2
+              className="text-lg  sm:text-xl font-semibold text-gray-800 dark:text-white"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4, duration: 0.8 }}
+            >
+              {title}
+            </motion.h2>
+          )}
+            {showSearch && <SearchBar  />}
             {showFilter && <div className="ml-2">{filter}</div>}
+            {showActionButton && (actionButton ?? <ExportButton />)}
           </div>
         </motion.div>
       )}
 
       <div className="overflow-x-auto py-4">
-        {title && (
-          <motion.h2
-            className="text-lg sm:text-xl font-semibold mb-4 text-gray-800 dark:text-white"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4, duration: 0.8 }}
-          >
-            {title}
-          </motion.h2>
-        )}
 
         <motion.div
           className="custom-scrollbar overflow-x-auto rounded-t-2xl border border-gray-200 dark:border-white/10"
@@ -136,7 +138,7 @@ export default function DataTable<T extends { [key: string]: any }>({
 }
 
 // Toggleable Action Button with Responsive Styles
-function ToggleButton() {
+function ExportButton() {
   const [active, setActive] = useState(false);
 
   return (

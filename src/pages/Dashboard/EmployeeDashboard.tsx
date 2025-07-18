@@ -5,7 +5,7 @@ import {
   timeLogData,
   leaveData,
 } from "../../constant/EmployeeDahboard";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import PageBreadcrumb from "../../components/common/PageBreadCrumb";
 import TotalRatingBadge from "../../components/EmployeeDahboard/TotalRatingBadge";
 import ProfileCardSkeleton from "../../components/common/ProfileCardSkeleton";
@@ -21,27 +21,33 @@ import Loader from "../../components/ui/loader/Loader";
 import ChartCardSkeleton from "../../components/EmployeeDahboard/ChartCardSkeleton";
 import AnnouncementsCardSkeleton from "../../components/EmployeeDahboard/AnnouncementsCardSkeleton";
 import MeetingCardSkeleton from "../../components/EmployeeDahboard/MeetingCardSkeleton";
+import { useApi } from "../../hooks/useApi";
+import EmptyState from "../../components/ui/error/EmptyState";
 
 export default function EmployeeDashboard() {
-  const [isLoading, setIsLoading] = useState(true);
-  const [isDataLoading, setIsDataLoading] = useState(true);
 
+  const [checkInData,setCheckInData] = useState<any>(null)
+
+  const { data, error, loading, run } = useApi(`/employee/dashboard/getEmployeeDashboard`, "GET", { manual: true })
+
+  const IMAGE_URL = `${import.meta.env.VITE_IMAGE_URL}/${data?.data?.profile_image}`
+
+  
+  const isFetched = useRef(false)
   useEffect(() => {
-    // Simulate initial loading
-    const timer = setTimeout(() => {
-      setIsDataLoading(false);
-      // Simulate data loading
-      setTimeout(() => {
-        setIsLoading(false);
-      }, 1000);
-    }, 2000);
+    if (!isFetched.current) {
+      run()
+      isFetched.current = true
+      setCheckInData(JSON.parse(localStorage.getItem("checkInData") || "{}"))
+    }
+  }, [])
 
-    return () => clearTimeout(timer);
-  }, []);
+  console.log(checkInData?.checkInTime );
+  
 
-  // if (isLoading) {
-  //   return <Loader className="h-[30vh]" />;
-  // }
+  if (error) {
+    return <EmptyState imageUrl="/images/error/noData.png" description={`Error while loading dashboard data: ${error}`} title={`No Dashboard Data Found!`} />
+  }
 
   return (
     <>
@@ -57,26 +63,26 @@ export default function EmployeeDashboard() {
         transition={{ duration: 0.5 }}
         className=""
       >
-        <div className="max-w-7xl mx-auto">
+        <div className="max-w-7xl mx-auto ">
           {/* Main Content Grid */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 pt-3">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 pt-3 ">
             {/* Left Side: Profile + Leave Cards */}
-            <div className="lg:col-span-2 flex flex-col h-full space-y-6">
-              {isDataLoading ? (
+            <div className="lg:col-span-2 flex flex-col h-full space-y-6 " >
+              {loading ? (
                 <ProfileCardSkeleton />
               ) : (
                 <ProfileCard
-                  name={employeeData.name}
-                  shiftTime={employeeData.shiftTime}
+                  name={data?.data?.name}
+                  shiftTime={`${data?.data?.shifts?.startTimeFormatted} to ${data?.data?.shifts?.endTimeFormatted}`}
                   punchInTime={employeeData.punchInTime}
                   punchOutTime={employeeData.punchOutTime}
                   breakTime={employeeData.breakTime}
-                  profileImage={employeeData.profileImage}
+                  profileImage={IMAGE_URL}
                 />
               )}
 
               {/* Leave Cards directly below Profile */}
-              {isDataLoading ? (
+              {loading ? (
                 <LeaveCardsSkeleton />
               ) : (
                 <LeaveCards data={leaveData} />
@@ -85,7 +91,7 @@ export default function EmployeeDashboard() {
 
             {/* Right Side: Time Log */}
             <div>
-              {isDataLoading ? (
+              {loading ? (
                 <TimeLogCardSkeleton />
               ) : (
                 <TimeLogCard data={timeLogData} />
@@ -94,13 +100,13 @@ export default function EmployeeDashboard() {
           </div>
 
           {/* Meeting Schedule and Announcements */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mt-6">
-            {isDataLoading ? <ChartCardSkeleton /> : <ChartCard />}
+          <div className="grid grid-cols-1  lg:grid-cols-3 gap-0 lg:gap-5  mt-6">
+            {loading ? <ChartCardSkeleton /> : <ChartCard />}
 
-            <div className="flex flex-wrap  gap-5">
-              {isDataLoading ? <AnnouncementsCardSkeleton /> : <AnnouncementsCard />}
-              
-              {isDataLoading ? <MeetingCardSkeleton /> : <MeetingCard />}
+            <div className="flex flex-wrap  gap-5 mt-5 lg:mt-0">
+              {loading ? <AnnouncementsCardSkeleton /> : <AnnouncementsCard />}
+
+              {loading ? <MeetingCardSkeleton /> : <MeetingCard />}
             </div>
           </div>
         </div>

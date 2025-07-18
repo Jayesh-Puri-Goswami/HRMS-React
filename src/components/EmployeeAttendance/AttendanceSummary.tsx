@@ -195,24 +195,17 @@ export default function AttendanceSummary() {
           initial={{ scale: 0.8, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ delay: 0.3, duration: 0.6 }}
+          className="flex-1"
         >
           <div className="flex items-start gap-3 w-full flex-col md:flex-row justify-center md:justify-start">
-            <ProfileProgress
-              totalRating={23}
-              items={[
-                { label: "Regular", value: 6, color: "#22c55e" },
-                { label: "Early", value: 15, color: "#ef4444" },
-                { label: "Late", value: 2, color: "#facc15" },
-                { label: "On Leave", value: 0, color: "#E5E7EB" },
-              ]}
-            />
+          <ProfileProgress className="w-full" />
           </div>
         </motion.div>
  
         {/* Badge Cards */}
-        <div>
+        <div className="flex-1 flex justify-center items-center gap-5">
           <motion.div
-            className="grid grid-cols-2 gap-4 py-4 px-2"
+            className=" grid grid-cols-2 gap-4 py-4 px-2"
             initial="hidden"
             animate="visible"
             variants={{
@@ -239,7 +232,7 @@ export default function AttendanceSummary() {
                 }}
                 transition={{ duration: 0.5, ease: "easeOut" }}
               >
-                <BadgeCard className="w-[38vw] md:w-[19vw]" totalHours={card.totalHours} label={card.label} />
+                <BadgeCard className="w-[38vw] md:w-[15vw]" totalHours={card.totalHours} label={card.label} />
               </motion.div>
             ))}
           </motion.div>

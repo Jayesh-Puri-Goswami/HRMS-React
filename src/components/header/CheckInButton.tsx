@@ -93,67 +93,6 @@ const CheckInButton: React.FC = () => {
     }
   };
 
-  useEffect(() => {
-    const fetchTodayAttendance = async () => {
-      if (!token) return;
-      setIsLoading(true);
-      try {
-        const response = await axios.get(`${baseURL}/employee/today/attendance`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        const attendance = response.data;
-        if (attendance && attendance.checkInTime) {
-          const checkInTime = new Date(attendance.checkInTime);
-          setCheckInData({
-            startTime: checkInTime,
-            totalTime: 0, // will be set by timer
-            isActive: true,
-            isPaused: attendance.isPaused,
-            shiftLunchTime: attendance.shiftLunchTime,
-            shiftBreakTime: attendance.shiftBreakTime,
-            status: attendance.status,
-            pauses: attendance.pauses || [],
-          });
-          setTotalHours(attendance.totalHours || "0");
-          if (attendance.totalHours === "0") {
-            setIsCheckedIn(true);
-            startTimerFrom(checkInTime, attendance.pauses || [], attendance.isPaused);
-          } else {
-            setIsCheckedIn(false);
-            stopTimer();
-          }
-        } else {
-          setIsCheckedIn(false);
-          setTotalHours("0");
-          setCheckInData({
-            startTime: new Date(),
-            totalTime: 0,
-            isActive: false,
-            isPaused: false,
-            shiftLunchTime: 0,
-            shiftBreakTime: 0,
-            status: '',
-            pauses: [],
-          });
-        }
-      } catch (err) {
-        setError("Failed to fetch attendance");
-        setIsCheckedIn(false);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchTodayAttendance();
-
-    return () => {
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current);
-      }
-    };
-  }, [token, baseURL]);
-
-  // Move fetchTodayAttendance to top-level for use in handleToggleTimer
   const fetchTodayAttendance = async () => {
     if (!token) return;
     setIsLoading(true);
@@ -174,6 +113,15 @@ const CheckInButton: React.FC = () => {
           status: attendance.status,
           pauses: attendance.pauses || [],
         });
+
+        const checkInData = {
+          checkInTime: attendance.checkInTime,
+          totalHours: attendance.totalHours,
+          pauses: attendance.pauses,
+          checkOutTime: attendance.checkOutTime,
+        }
+
+        localStorage.setItem("checkInData", JSON.stringify(checkInData))
         setTotalHours(attendance.totalHours || "0");
         if (attendance.totalHours === "0") {
           setIsCheckedIn(true);
@@ -203,6 +151,22 @@ const CheckInButton: React.FC = () => {
       setIsLoading(false);
     }
   };
+
+  const hasFetchedAttendance = useRef(false)
+
+  useEffect(() => {
+    if(!hasFetchedAttendance.current) {
+      fetchTodayAttendance()
+      hasFetchedAttendance.current = true
+    }
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
+    };
+  }, [token, baseURL]);
+
+
 
   const handleCheckIn = async () => {
     try {

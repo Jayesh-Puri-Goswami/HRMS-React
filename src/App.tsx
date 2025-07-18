@@ -75,8 +75,8 @@ export default function App() {
           <Route element={<ProtectedRoute allowedRoles={['HR']} />}>
             <Route element={<AppLayout />}>
               <Route path="/hr-dashboard" element={<HRDashboard />} />
-              <Route path="/hr-attendance" element={<HRDashboard />} />
               <Route path="/hr-profile" element={<HRProfile />} />
+              <Route path="/hr-attendance" element={<HrAttendance />} />
             </Route>
           </Route>
           {/* Protected HR Routes  Ends */}

@@ -30,7 +30,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
       <Card className="relative rounded-3xl bg-gradient-to-r from-themeGradientColorFrom to-themeGradientColorTo text-white border-none p-8 flex-1 min-h-[230px]">
         <div className="flex items-center justify-between">
           <div className="flex-1">
-            <h2 className="text-lg font-semibold mb-2">Hi, {currentUser?.name || "User Name"}</h2>
+            <h2 className="text-lg font-semibold mb-2">Hi, {name || "User Name"}</h2>
             <p className="text-lg text-purple-100 mb-8">
               My Shift : {shiftTime}
             </p>
@@ -42,6 +42,8 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
                     src={profileImage}
                     alt={name}
                     className="w-full h-full object-cover"
+                    loading="lazy"
+
                     onError={(e) => {
                       e.currentTarget.src = "/public/images/user/UserSVG.svg";
                       setImageError(true);

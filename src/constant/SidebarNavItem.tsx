@@ -56,7 +56,7 @@ export const SIDEBAR_NAV_ITEMS: Record<string, NavItem[]> = {
     {
       icon: <Megaphone />,
       name: 'Announcements',
-      path: '/hr-announcements',
+      path: '/unauthorized',
     }
   ],
   Employee: [

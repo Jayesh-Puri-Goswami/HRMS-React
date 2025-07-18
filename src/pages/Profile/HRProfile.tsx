@@ -13,8 +13,10 @@ import {
 } from "../../constant/EmployeeProfile";
 import {
   AddressSkeleton,
+  BankDetailsSkeleton,
   DocumentsSkeleton,
   GenericSkeleton,
+  GraduationSkeleton,
 } from "../../components/EmployeeProfile/skeletons/LoadingSkeletons";
 import AddressContent from "../../components/EmployeeProfile/AddressContent";
 import DocumentsContent from "../../components/EmployeeProfile/DocumentsContent";
@@ -42,6 +44,14 @@ const HRProfile = () => {
           return <AddressSkeleton />;
         case "documents":
           return <DocumentsSkeleton />;
+        case "bank-detail":
+          return <BankDetailsSkeleton />;
+        case "salary-overview":
+          return <BankDetailsSkeleton />;
+        case "payslip":
+          return <BankDetailsSkeleton />;
+        case "graduation-details":
+          return <GraduationSkeleton />;
         default:
           return <GenericSkeleton />;
       }
@@ -76,14 +86,14 @@ const HRProfile = () => {
 
       {/* Top Section */}
       <div className="flex flex-col lg:flex-row my-5 gap-6">
-        <div className="w-full lg:basis-3/5">
+        <div className="w-full lg:basis-3/5 h">
           <EmployeeProfileCard
             key={employeeProfileCardData.id}
             employee={employeeProfileCardData}
             variant="default"
             onCardClick={(employee) => console.log("Clicked:", employee)}
             animationDelay={0.1}
-            className="hover:scale-[1.01] transition-transform duration-200"
+            className="hover:scale-[1] transition-transform duration-200"
           />
         </div>
         <div className="w-full lg:basis-2/5">
