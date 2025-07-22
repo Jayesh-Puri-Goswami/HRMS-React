@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import React, { useState, useCallback } from "react";
@@ -25,6 +26,7 @@ import SalaryOverviewContent from "../../components/EmployeeProfile/SalaryOvervi
 import PayslipContent from "../../components/EmployeeProfile/PayslipContent";
 import ProfileGraduation from "../../components/EmployeeProfile/ProfileGraduation";
 import Card from "../../components/ui/card/Card";
+import { useSelector } from "react-redux";
 
 const HRProfile = () => {
   const [activeTab, setActiveTab] = useState<string>("address");
@@ -79,6 +81,24 @@ const HRProfile = () => {
     }
   };
 
+  const user = useSelector((state : any) => state.auth.user);
+
+  const employeeProfileCardData = {
+    id: user?._id,
+    name : user?.name,
+    phone : user?.phone,
+    email : user?.email,
+    department : user?.department,
+    designation : user?.designation,
+    workShift : 'Regular',
+    joiningDate : user?.joinDate,
+    location : user?.address,
+    avatar : user?.profile_image,
+  }
+
+  // console.log(employeeProfileCardData);
+  
+
   return (
     <>
       <PageMeta title="Employee Profile" description="" />
@@ -89,7 +109,7 @@ const HRProfile = () => {
         <div className="w-full lg:basis-3/5 h">
           <EmployeeProfileCard
             key={employeeProfileCardData.id}
-            employee={employeeProfileCardData}
+            employeeProfileCardData={employeeProfileCardData}
             variant="default"
             onCardClick={(employee) => console.log("Clicked:", employee)}
             animationDelay={0.1}

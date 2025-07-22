@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import React, { useState, useCallback } from "react";
@@ -7,7 +8,7 @@ import EmployeeProfileCard from "../../components/EmployeeProfile/EmployeeProfil
 import ProfileProgress from "../../components/EmployeeProfile/ProfileProgress";
 import ProfileTab from "../../components/EmployeeProfile/ProfileTab";
 import {
-  employeeProfileCardData,
+  // employeeProfileCardData,
   DEFAULT_TABS,
   EMPLOYEE_PROFILE_DATA,
 } from "../../constant/EmployeeProfile";
@@ -25,6 +26,8 @@ import SalaryOverviewContent from "../../components/EmployeeProfile/SalaryOvervi
 import PayslipContent from "../../components/EmployeeProfile/PayslipContent";
 import ProfileGraduation from "../../components/EmployeeProfile/ProfileGraduation";
 import Card from "../../components/ui/card/Card";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store/store";
 
 const EmployeeProfile = () => {
   const [activeTab, setActiveTab] = useState<string>("address");
@@ -79,6 +82,31 @@ const EmployeeProfile = () => {
     }
   };
 
+  const user = useSelector((state : any) => state.auth.user);
+
+  // console.log(user);
+
+  const employeeProfileCardData = {
+    id: user?._id,
+    name : user?.name,
+    phone : user?.phone,
+    email : user?.email,
+    department : user?.department,
+    designation : user?.designation,
+    workShift : 'Regular',
+    joiningDate : user?.joinDate,
+    location : user?.address,
+    avatar : user?.profile_image,
+
+  }
+  
+  // console.log(employeeProfileCardData.avatar);
+  
+
+
+
+  
+
   return (
     <>
       <PageMeta title="Employee Profile" description="" />
@@ -89,7 +117,7 @@ const EmployeeProfile = () => {
         <div className="w-full lg:basis-3/5 h">
           <EmployeeProfileCard
             key={employeeProfileCardData.id}
-            employee={employeeProfileCardData}
+            employeeProfileCardData={employeeProfileCardData}
             variant="default"
             onCardClick={(employee) => console.log("Clicked:", employee)}
             animationDelay={0.1}

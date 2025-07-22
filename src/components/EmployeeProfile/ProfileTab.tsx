@@ -4,10 +4,8 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { FreeMode } from "swiper/modules";
 import { motion } from "framer-motion";
 // Import Swiper styles
-// @ts-ignore
-import "swiper/css";
-// @ts-ignore
-import "swiper/css/free-mode";
+// import "swiper/css";
+// import "swiper/css/free-mode";
 import { ProfileTabProps } from "../../types/EmployeeProfile";
 
 const ProfileTab: React.FC<ProfileTabProps> = ({ actionButtons, currentTab }) => {

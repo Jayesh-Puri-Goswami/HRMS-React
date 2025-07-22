@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { BrowserRouter as Router, Routes, Route } from "react-router";
 import Login from "./pages/AuthPages/Login";
 import SignUp from "./pages/AuthPages/SignUp";
@@ -21,6 +22,7 @@ import HrAttendance from "./pages/Attendance/HrAttendance";
 import HRProfile from "./pages/Profile/HRProfile";
 import { RedirectRoot } from "./lib/RedirectRoot";
 import Unauthorized from "./pages/OtherPage/Unauthorized";
+import HrLeave from "./pages/Leaves/HrLeave";
 
 interface ProtectedRouteProps {
   allowedRoles: string[];
@@ -77,6 +79,7 @@ export default function App() {
               <Route path="/hr-dashboard" element={<HRDashboard />} />
               <Route path="/hr-profile" element={<HRProfile />} />
               <Route path="/hr-attendance" element={<HrAttendance />} />
+              <Route path="/hr-leaves" element={<HrLeave/>} />
             </Route>
           </Route>
           {/* Protected HR Routes  Ends */}

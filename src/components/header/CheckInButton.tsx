@@ -426,7 +426,7 @@ const CheckInButton: React.FC = () => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={handleCheckOut}
-              className="px-6 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg font-semibold transition-colors shadow-md focus:outline-none focus:ring-2 focus:ring-red-400"
+              className={`px-6 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg font-semibold transition-colors shadow-md focus:outline-none focus:ring-2 focus:ring-red-400 ${isLoading ? 'cursor-not-allowed': 'cursor-pointer'}`}
               disabled={isLoading}
             >
               {isLoading ? <span className="flex items-center gap-2"><Loader2 className="animate-spin" /> Checking Out</span> : "Save & Check Out"}

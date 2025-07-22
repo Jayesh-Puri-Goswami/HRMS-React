@@ -2,9 +2,9 @@ import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useSidebar } from "../context/SidebarContext";
 import { ThemeToggleButton } from "../components/common/ThemeToggleButton";
-import NotificationDropdown from "../components/Header/NotificationDropdown";
-import UserDropdown from "../components/Header/UserDropdown";
-import CheckInButton from "../components/Header/CheckInButton";
+import NotificationDropdown from "../components/header/NotificationDropdown";
+import UserDropdown from "../components/header/UserDropdown";
+import CheckInButton from "../components/header/CheckInButton";
 
 import { useSelector } from "react-redux";
 

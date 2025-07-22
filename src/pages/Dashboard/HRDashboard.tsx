@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import PageMeta from "../../components/common/PageMeta";
 import { motion } from "framer-motion";
 import {
@@ -7,7 +8,7 @@ import {
   // meetings,
   // announcements,
 } from "../../constant/HRDashboard";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 // import SubLoader from "../../components/ui/loader/SubLoader";
 import PageBreadcrumb from "../../components/common/PageBreadCrumb";
 import TotalRatingBadge from "../../components/EmployeeDahboard/TotalRatingBadge";
@@ -24,22 +25,28 @@ import Loader from "../../components/ui/loader/Loader";
 import ChartCardSkeleton from "../../components/EmployeeDahboard/ChartCardSkeleton";
 import AnnouncementsCardSkeleton from "../../components/EmployeeDahboard/AnnouncementsCardSkeleton";
 import MeetingCardSkeleton from "../../components/EmployeeDahboard/MeetingCardSkeleton";
+import { useApi } from "../../hooks/useApi";
 
 export default function HRDashboard() {
-  const [isLoading, setIsLoading] = useState(true);
-  const [isDataLoading, setIsDataLoading] = useState(true);
+  const [checkInData, setCheckInData] = useState<any>(null);
 
+  const { data, error, loading, run } = useApi(
+    `/employee/dashboard/getEmployeeDashboard`,
+    "GET",
+    { manual: true }
+  );
+
+  const IMAGE_URL = `${import.meta.env.VITE_IMAGE_URL}/${
+    data?.data?.profile_image
+  }`;
+
+  const isFetched = useRef(false);
   useEffect(() => {
-    // Simulate initial loading
-    const timer = setTimeout(() => {
-      setIsDataLoading(false);
-      // Simulate data loading
-      setTimeout(() => {
-        setIsLoading(false);
-      }, 1000);
-    }, 2000);
-
-    return () => clearTimeout(timer);
+    if (!isFetched.current) {
+      run();
+      isFetched.current = true;
+      setCheckInData(JSON.parse(localStorage.getItem("checkInData") || "{}"));
+    }
   }, []);
 
   // if (isLoading) {
@@ -65,21 +72,21 @@ export default function HRDashboard() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 pt-3">
             {/* Left Side: Profile + Leave Cards */}
             <div className="lg:col-span-2 flex flex-col h-full space-y-6">
-              {isDataLoading ? (
+              {loading ? (
                 <ProfileCardSkeleton />
               ) : (
                 <ProfileCard
-                  name={HRData.name}
-                  shiftTime={HRData.shiftTime}
+                  name={data?.data?.name}
+                  shiftTime={`${data?.data?.shifts?.startTimeFormatted} to ${data?.data?.shifts?.endTimeFormatted}`}
                   punchInTime={HRData.punchInTime}
                   punchOutTime={HRData.punchOutTime}
                   breakTime={HRData.breakTime}
-                  profileImage={HRData.profileImage}
+                  profileImage={IMAGE_URL}
                 />
               )}
 
               {/* Leave Cards directly below Profile */}
-              {isDataLoading ? (
+              {loading ? (
                 <LeaveCardsSkeleton />
               ) : (
                 <LeaveCards data={leaveData} />
@@ -88,7 +95,7 @@ export default function HRDashboard() {
 
             {/* Right Side: Time Log */}
             <div>
-              {isDataLoading ? (
+              {loading ? (
                 <TimeLogCardSkeleton />
               ) : (
                 <TimeLogCard data={timeLogData} />
@@ -96,14 +103,14 @@ export default function HRDashboard() {
             </div>
           </div>
 
-         {/* Meeting Schedule and Announcements */}
-         <div className="grid grid-cols-1  lg:grid-cols-3 gap-0 lg:gap-5 mt-6">
-            {isDataLoading ? <ChartCardSkeleton /> : <ChartCard />}
+          {/* Meeting Schedule and Announcements */}
+          <div className="grid grid-cols-1  lg:grid-cols-3 gap-0 lg:gap-5 mt-6">
+            {loading ? <ChartCardSkeleton /> : <ChartCard />}
 
             <div className="flex flex-wrap  gap-5 mt-5 lg:mt-0">
-              {isDataLoading ? <AnnouncementsCardSkeleton /> : <AnnouncementsCard />}
+              {loading ? <AnnouncementsCardSkeleton /> : <AnnouncementsCard />}
 
-              {isDataLoading ? <MeetingCardSkeleton /> : <MeetingCard />}
+              {loading ? <MeetingCardSkeleton /> : <MeetingCard />}
             </div>
           </div>
         </div>

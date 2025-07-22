@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import PageMeta from "../../components/common/PageMeta";
 import { motion } from "framer-motion";
 import {
@@ -20,7 +21,7 @@ import MeetingCard from "../../components/EmployeeDahboard/MeetingCard";
 import Loader from "../../components/ui/loader/Loader";
 import ChartCardSkeleton from "../../components/EmployeeDahboard/ChartCardSkeleton";
 import AnnouncementsCardSkeleton from "../../components/EmployeeDahboard/AnnouncementsCardSkeleton";
-import MeetingCardSkeleton from "../../components/EmployeeDahboard/MeetingCardSkeleton";
+import MeetingCardSkeleton from "../../components/employeeDahboard/MeetingCardSkeleton";
 import { useApi } from "../../hooks/useApi";
 import EmptyState from "../../components/ui/error/EmptyState";
 
@@ -32,6 +33,7 @@ export default function EmployeeDashboard() {
 
   const IMAGE_URL = `${import.meta.env.VITE_IMAGE_URL}/${data?.data?.profile_image}`
 
+
   
   const isFetched = useRef(false)
   useEffect(() => {
@@ -41,8 +43,6 @@ export default function EmployeeDashboard() {
       setCheckInData(JSON.parse(localStorage.getItem("checkInData") || "{}"))
     }
   }, [])
-
-  console.log(checkInData?.checkInTime );
   
 
   if (error) {

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import type React from "react";
@@ -18,7 +19,6 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
 }) => {
 
   const [imageError, setImageError] = useState(false);
-
   const currentUser = useSelector((state: any) => state.auth.user);
 
   return (
@@ -43,7 +43,6 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
                     alt={name}
                     className="w-full h-full object-cover"
                     loading="lazy"
-
                     onError={(e) => {
                       e.currentTarget.src = "/public/images/user/UserSVG.svg";
                       setImageError(true);

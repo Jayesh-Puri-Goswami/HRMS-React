@@ -25,6 +25,7 @@ export interface EmployeeProfileCardProps {
   onCardClick?: (employee: EmployeeData) => void;
   animationDelay?: number;
   skeletonCount?: number;
+  employeeProfileCardData?: EmployeeData;
 }
 
 export interface RatingItem {

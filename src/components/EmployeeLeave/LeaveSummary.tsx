@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import RequestLeaveModal from './Modal/RequestLeave.Modal'
@@ -18,7 +19,7 @@ const LeaveSummaryCards: React.FC<LeaveSummaryCardsProps> = ({ className = "" })
 
   const {data,error,loading,refetch} = useApi(`/employee/get/employees/paidLeaves/${user._id}`,"GET")
 
-  console.log(data);
+  // console.log(data);
   
 
   return (
