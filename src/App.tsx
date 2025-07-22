@@ -23,6 +23,7 @@ import HRProfile from "./pages/Profile/HRProfile";
 import { RedirectRoot } from "./lib/RedirectRoot";
 import Unauthorized from "./pages/OtherPage/Unauthorized";
 import HrLeave from "./pages/Leaves/HrLeave";
+import HrEmployee from "./pages/Employee/HrEmployee";
 
 interface ProtectedRouteProps {
   allowedRoles: string[];
@@ -80,6 +81,8 @@ export default function App() {
               <Route path="/hr-profile" element={<HRProfile />} />
               <Route path="/hr-attendance" element={<HrAttendance />} />
               <Route path="/hr-leaves" element={<HrLeave/>} />
+              <Route path="/hr-employee" element={<HrEmployee />} />
+              {/* <Route path="/hr-employee/:id" element={<EmployeeDetail />} /> */}
             </Route>
           </Route>
           {/* Protected HR Routes  Ends */}

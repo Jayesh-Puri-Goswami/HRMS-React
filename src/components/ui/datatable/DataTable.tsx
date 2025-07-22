@@ -28,6 +28,8 @@ type DataTableProps<T> = {
   onPageChange?: (page: number) => void;
   filterDirection? : 'right' | 'left' | 'between'
   actionButton ?: React.ReactNode
+  onSearch?: (query: string) => void;
+  serverSidePagination?: boolean;
 };
 
 export default function DataTable<T extends { [key: string]: any }>({
@@ -43,12 +45,14 @@ export default function DataTable<T extends { [key: string]: any }>({
   limit = 10,
   onPageChange,
   filterDirection = 'right',
-  actionButton
+  actionButton,
+  onSearch,
+  serverSidePagination = false,
 }: DataTableProps<T>) {
   // Calculate paginated data
   const startIdx = (currentPage - 1) * limit;
   const endIdx = startIdx + limit;
-  const paginatedData = totalPages > 1 ? data.slice(startIdx, endIdx) : data;
+  const paginatedData = serverSidePagination ? data : (totalPages > 1 ? data.slice(startIdx, endIdx) : data);
 
   return (
     <div className="space-y-2">
@@ -70,7 +74,7 @@ export default function DataTable<T extends { [key: string]: any }>({
               {title}
             </motion.h2>
           )}
-            {showSearch && <SearchBar  />}
+            {showSearch && <SearchBar onSearch={onSearch} />}
             {showFilter && <div className="ml-2">{filter}</div>}
             {showActionButton && (actionButton ?? <ExportButton />)}
           </div>

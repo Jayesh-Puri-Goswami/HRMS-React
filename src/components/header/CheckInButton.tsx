@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import type React from "react";
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -380,6 +381,7 @@ const CheckInButton: React.FC = () => {
               whileTap={{ scale: 0.95 }}
               onClick={() => {setShowCheckInModal(false) ;setError('')}}
               className="flex-1 px-6 py-2 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-lg font-semibold transition-colors shadow-md dark:bg-themeBackgroundColorDark/20 dark:text-white dark:hover:bg-themeBackgroundColorDark/50"
+              disabled={isLoading}
             >
               Cancel
             </motion.button>
@@ -419,6 +421,7 @@ const CheckInButton: React.FC = () => {
               whileTap={{ scale: 0.95 }}
               onClick={() => setShowCheckOutModal(false)}
               className="px-6 py-2 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-lg font-semibold transition-colors shadow-md dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600"
+            disabled={isLoading}
             >
               Cancel
             </motion.button>

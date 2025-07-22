@@ -1,48 +1,144 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PageBreadcrumb from "../common/PageBreadCrumb";
 import { HR_ATTENDANCE_DAILY_LOG } from "../../constant/HrAttendance";
 import { motion } from "framer-motion";
 import DataTable from "../ui/datatable/DataTable";
-import {
-  HR_ATTENDANCE_DAILY_LOG_TYPE,
-  HR_ATTENDANCE_TABLE_TYPE,
-} from "../../types/HrAttendance.type";
-import { FileInput, X } from "lucide-react";
+import { ApiResponse, AttendanceRecord } from "../../types/HrAttendance.type";
+import { FileInput } from "lucide-react";
 import SearchBar from "../ui/searchbar/SearchBar";
 import { HrAttendanceModel } from "./HrAttendanceModels/HrAttendance.Model";
 import InputField from "../ui/inputs/InputField";
+import { useApi } from "../../hooks/useApi";
+import Loader from "../ui/loader/Loader";
+import SubLoader from "../ui/loader/SubLoader";
+import EmptyState from "../ui/error/EmptyState";
+
+function statusClass(status: string) {
+  switch (status) {
+    case "present":
+      return "bg-green-100 text-green-800 px-2 py-1 rounded text-xs font-medium text-center";
+    case "absent":
+      return "bg-red-100 text-red-800 px-2 py-1 rounded text-xs font-medium text-center";
+    case "leave":
+      return "bg-yellow-100 text-yellow-800 px-2 py-1 rounded text-xs font-medium text-center";
+    case "halfday":
+      return "bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs font-medium text-center";
+    case "weekend":
+      return "bg-gray-100 text-gray-800 px-2 py-1 rounded text-xs font-medium text-center";
+    default:
+      return "bg-gray-200 text-gray-600 px-2 py-1 rounded text-xs font-medium text-center";
+  }
+}
 
 const columns = [
-  { key: "id" as keyof HR_ATTENDANCE_DAILY_LOG_TYPE, header: "Sr.No" },
-  { key: "date" as keyof HR_ATTENDANCE_DAILY_LOG_TYPE, header: "Date" },
-  { key: "punchIn" as keyof HR_ATTENDANCE_DAILY_LOG_TYPE, header: "Punch In" },
   {
-    key: "punchOut" as keyof HR_ATTENDANCE_DAILY_LOG_TYPE,
-    header: "Punch Out",
+    key: "employeeName",
+    header: "Employee",
+    render: (row: AttendanceRecord) => (
+      <div className="flex items-center gap-2">
+        <img
+          src={row.employeeId.profile_image || "/default-user.png"}
+          alt={row.employeeName}
+          className="w-8 h-8 rounded-full object-cover"
+          onError={(e) => {
+            e.currentTarget.src = "/public/images/user/UserSVG.svg";
+          }}
+        />
+        <span>{row.employeeName}</span>
+      </div>
+    ),
   },
-  { key: "behavior" as keyof HR_ATTENDANCE_DAILY_LOG_TYPE, header: "Behavior" },
   {
-    key: "BreackTime" as keyof HR_ATTENDANCE_DAILY_LOG_TYPE,
-    header: "Breack Time",
+    key: "date",
+    header: "Date",
+    render: (row: AttendanceRecord) => (
+      <div className="text-center">
+        <span>{new Date(row.date).toLocaleDateString()}</span>
+      </div>
+    ),
   },
   {
-    key: "totelHours" as keyof HR_ATTENDANCE_DAILY_LOG_TYPE,
-    header: "Totel Hours",
+    key: "checkInTime",
+    header: "Check-In",
+    render: (row: AttendanceRecord) => (
+      <div className="text-center">
+        <span>
+          {row.checkInTime
+            ? new Date(row.checkInTime).toLocaleTimeString([], {
+                hour: "2-digit",
+                minute: "2-digit",
+              })
+            : "Not Checked In"}
+        </span>
+      </div>
+    ),
   },
-  { key: "entry" as keyof HR_ATTENDANCE_DAILY_LOG_TYPE, header: "Entry" },
   {
-    key: "action" as keyof HR_ATTENDANCE_DAILY_LOG_TYPE,
-    header: "Action",
-    render: (row: HR_ATTENDANCE_DAILY_LOG_TYPE) => (
-      <button onClick={row.action}>View</button>
+    key: "checkOutTime",
+    header: "Check-Out",
+    render: (row: AttendanceRecord) => (
+      <div className="text-center">
+        <span>
+          {row.checkOutTime
+            ? new Date(row.checkOutTime).toLocaleTimeString([], {
+                hour: "2-digit",
+                minute: "2-digit",
+              })
+            : "Not Checked Out"}
+        </span>
+      </div>
+    ),
+  },
+  {
+    key: "totalHours",
+    header: "Total Hours",
+    render: (row: AttendanceRecord) => (
+      <div className="text-center">
+        <span>{row.totalHours ? row.totalHours : "0"}</span>
+      </div>
+    ),
+  },
+  {
+    key: "status",
+    header: "Status",
+    render: (row: AttendanceRecord) => (
+      <div className="flex justify-center items-center">
+        <span className={`${statusClass(row.status)} text-center`}>
+          {row.status.charAt(0).toUpperCase() + row.status.slice(1)}
+        </span>
+      </div>
     ),
   },
 ];
+
 const DailyLog = () => {
-  const [selectedBankDetail, setSelectedBankDetail] =
-    useState<HR_ATTENDANCE_DAILY_LOG_TYPE | null>(null);
-  const [addBankdetails, setAddBankdetails] =
-    useState<HR_ATTENDANCE_DAILY_LOG_TYPE | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen2, setIsModalOpen2] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [limit] = useState(20);
+  const [employeeName, setEmployeeName] = useState("");
+
+  const { data, loading, error, refetch } = useApi<ApiResponse>(
+    "/admin/all-attendance/today",
+    "GET",
+    {
+      params: { page: currentPage, limit, employeeName },
+      manual: true,
+    }
+  );
+
+  useEffect(() => {
+    refetch();
+  }, [currentPage, employeeName]);
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
+
+  const handleSearch = (query: string) => {
+    setEmployeeName(query);
+    setCurrentPage(1);
+  };
   const [user, setUser] = useState({
     name: "",
     punchIn: "",
@@ -57,8 +153,7 @@ const DailyLog = () => {
       [e.target.name]: e.target.value,
     });
   };
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isModalOpen2, setIsModalOpen2] = useState(false);
+
   const handleClose = () => {
     setIsModalOpen(false);
     setIsModalOpen2(false);
@@ -66,21 +161,35 @@ const DailyLog = () => {
   return (
     <>
       <div className=" dark:border-white/[0.09]">
-        <DataTable
-          data={HR_ATTENDANCE_DAILY_LOG as HR_ATTENDANCE_DAILY_LOG_TYPE[]}
-          columns={columns}
-          showSearch={true}
-          showFilter={true}
-          showActionButton={true}
-          filterDirection="between"
-          actionButton={
-            <ActionButtons
-              setIsModalOpen={setIsModalOpen}
-              handleClose={handleClose}
-              setIsModalOpen2={setIsModalOpen2}
-            />
-          }
-        />
+        {/* {loading && <SubLoader />} */}
+        {error && <p>Error: {error}</p>}
+        {data ? (
+          <DataTable
+            data={data.attendanceRecords}
+            columns={columns}
+            showSearch={true}
+            showFilter={true}
+            showActionButton={true}
+            filterDirection="between"
+            actionButton={
+              <ActionButtons
+                setIsModalOpen={setIsModalOpen}
+                handleClose={handleClose}
+                setIsModalOpen2={setIsModalOpen2}
+              />
+            }
+            totalPages={Math.ceil(data.totalCount / limit)}
+            currentPage={currentPage}
+            onPageChange={handlePageChange}
+            onSearch={handleSearch}
+            serverSidePagination={true}
+          />
+        ) : (
+          <EmptyState
+            imageUrl="/public/images/error/noData.png"
+            title="No data found"
+          />
+        )}
       </div>
 
       <HrAttendanceModel
@@ -228,7 +337,8 @@ const ExportModal = ({
         className="bg-white dark:bg-gray-500 cursor-pointer rounded-xl  shadow-lg p-2 gap-4   px-4 flex  items-center justify-between relative border  border-gray-200 dark:border-white/10 z-50"
         onClick={(e) => e.stopPropagation()}
       >
-        <FileInput className="w-5 h-5" /> <span className="text-sm">Export Attendance File</span>
+        <FileInput className="w-5 h-5" />{" "}
+        <span className="text-sm">Export Attendance File</span>
       </div>
     </div>
   );

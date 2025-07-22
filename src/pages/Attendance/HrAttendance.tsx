@@ -22,8 +22,6 @@ export default function HrAttendance() {
     setLoading(true);
     setTimeout(() => setLoading(false), 800); // Simulated loading delay
   }, []);
-  // setLoading(true);
-  // Skeleton
   const renderTabContent = (tabId: string) => {
     if (loading) {
       switch (tabId) {
@@ -54,6 +52,8 @@ export default function HrAttendance() {
 
 
   };
+
+
 
   return (
     <>

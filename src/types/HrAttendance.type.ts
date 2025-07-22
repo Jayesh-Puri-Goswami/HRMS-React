@@ -73,3 +73,105 @@ export interface HR_ATTENDANCE_TABLE_TYPE {
   action: () => void;
 }
 
+export interface AttendanceRecord {
+  [x: string]: any;
+  _id: string;
+  employeeId: {
+    bankDetails: {
+      bankName: string | null;
+      accounNumber: number;
+      ifscCode: string | null;
+      accountHolderName: string | null;
+    };
+    _id: string;
+    name: string;
+    org: string;
+    email: string;
+    profile_image: string;
+    department: string;
+    otherDepartmentName: string | null;
+    designation: string;
+    otherDesignationName: string | null;
+    role: string;
+    isManagerAsTeamLead: boolean;
+    manager: string;
+    teamLead: string | null;
+    dob: string;
+    gender: string;
+    phone: string;
+    address: string;
+    joinDate: string;
+    addedBy: string;
+    graduation: string;
+    shifts: string;
+    employementType: string;
+    payrollEnable: boolean;
+    salaryStatus: boolean;
+    aadhaarCard: string | null;
+    panCard: string | null;
+    voterId: string | null;
+    photograph: string | null;
+    addressProof: string | null;
+    otherDocument: string | null;
+    recentMarksheet: string | null;
+    totalSalary: number;
+    basicWage: number;
+    HRA: number;
+    conveyanceAllowance: number;
+    medicalAllowance: number;
+    da: number;
+    otherAllowance: number;
+    tds: number;
+    professionalTax: number;
+    netSalary: number;
+    active: boolean;
+    lastLogin: string;
+    createdAt: string;
+    updatedAt: string;
+    __v: number;
+  };
+  employeeName: string;
+  date: string;
+  checkInTime: string;
+  totalHours: string;
+  totalMinutes: number;
+  leaveStatus: string;
+  totalPausedMinutes: number;
+  isPaused: boolean;
+  lunchMinutes: number;
+  breakMinutes: number;
+  shiftId: {
+    _id: string;
+    name: string;
+    startTime: string;
+    endTime: string;
+    createdAt: string;
+    updatedAt: string;
+    __v: number;
+    breakTime: number;
+    lunchTime: number;
+    totalWorkingTime: number;
+    totalWorkingTimeHHMM: string;
+    totalWorkingTimeWithoutBreaks: number;
+    totalWorkingTimeWithoutBreaksHHMM: string;
+    startTimeFormatted: string;
+    endTimeFormatted: string;
+    id: string;
+  };
+  shiftStartTime: string;
+  shiftEndTime: string;
+  shiftLunchTime: number;
+  shiftBreakTime: number;
+  status: string;
+  pauses: unknown[]; // You might want to define a type for pauses if it has a structure
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+}
+
+export interface ApiResponse {
+  attendanceRecords: AttendanceRecord[];
+  page: number;
+  totalCount: number;
+}
+

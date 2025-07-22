@@ -1,17 +1,18 @@
 import type React from "react";
 import { motion } from "framer-motion";
 import Card from "../ui/card/Card";
-import { LeaveData } from "../../types/HRDashboard";
-
-
+// import { LeaveData } from "../../types/HRDashboard";
 
 interface LeaveCardsProps {
-  data: LeaveData;
+  totalEmployee  : string;
+  absentEmployees : string;
+  leaveEmployees : string;
+  halfDayEmployees : string;
 }
 
-const LeaveCards: React.FC<LeaveCardsProps> = ({ data }) => {
+const LeaveCards: React.FC<LeaveCardsProps> = ({ totalEmployee,absentEmployees,leaveEmployees,halfDayEmployees }) => {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 flex-1">
+   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-[35%_65%] gap-4 flex-1">
       {/* Total Leave Card */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -21,26 +22,20 @@ const LeaveCards: React.FC<LeaveCardsProps> = ({ data }) => {
       >
         <Card className="bg-[#ffe0e0] dark:bg-white/[0.03] dark:border-white/10 py-4 px-6 flex justify-between items-center h-full">
           <div>
-            <h3 className="text-[28px] font-semibold text-gray-600 dark:text-white">
-              {data.totalEmoloyee}
+            <h3 className="text-[28px] text-center font-semibold text-gray-600 dark:text-white">
+              {totalEmployee}
             </h3>
-            <p className="text-gray-600 dark:text-gray-300 text-sm mt-1">Total Employee</p>
+            <p className="text-gray-600 dark:text-gray-300 text-sm mt-1">
+              Total Employee
+            </p>
           </div>
-        </Card>
-      </motion.div>
-
-      {/* Attendance Card */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.5 }}
-      >
-        <Card className="bg-[#e1e0ff] dark:bg-white/[0.03] py-4 px-6 flex justify-between items-center h-full">
           <div>
-            <h3 className="text-[28px] font-semibold text-gray-600 dark:text-white">
-              {data.attendance}
+            <h3 className="text-[28px] text-center font-semibold text-gray-600 dark:text-white">
+              {totalEmployee}
             </h3>
-            <p className="text-gray-600 dark:text-gray-300 text-sm mt-1">Attendance</p>
+            <p className="text-gray-600 dark:text-gray-300 text-sm mt-1">
+              Attendance
+            </p>
           </div>
         </Card>
       </motion.div>
@@ -51,24 +46,38 @@ const LeaveCards: React.FC<LeaveCardsProps> = ({ data }) => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.5 }}
       >
-        <Card className="bg-[#e0ebff] dark:bg-white/[0.03] py-4 px-6 flex justify-between items-center h-full">
+        <Card className="bg-[#e0ebff] text-center dark:bg-white/[0.03] py-4 px-6 flex justify-between items-center h-full">
           <div>
             <h3 className="text-[28px] font-semibold text-gray-600 dark:text-white">
-              {data.absent}
+              {absentEmployees}
             </h3>
-            <p className="text-gray-600 dark:text-gray-300 text-sm mt-1">Absents</p>
+            <p className="text-gray-600 dark:text-gray-300 text-sm mt-1">
+              Absents
+            </p>
           </div>
           <div>
             <h3 className="text-[28px] font-semibold text-gray-600 dark:text-white">
-              {data.leave}
+              {leaveEmployees}
             </h3>
-            <p className="text-gray-600 dark:text-gray-300 text-sm mt-1">Leaves</p>
+            <p className="text-gray-600 dark:text-gray-300 text-sm mt-1">
+              Leaves
+            </p>
           </div>
           <div>
             <h3 className="text-[28px] font-semibold text-gray-600 dark:text-white">
-              {data.halfDay}
+              {halfDayEmployees}
             </h3>
-            <p className="text-gray-600 dark:text-gray-300 text-sm mt-1">Half Days</p>
+            <p className="text-gray-600 dark:text-gray-300 text-sm mt-1">
+              Half Days
+            </p>
+          </div>
+          <div>
+            <h3 className="text-[28px] font-semibold text-gray-600 dark:text-white">
+              {halfDayEmployees}
+            </h3>
+            <p className="text-gray-600 dark:text-gray-300 text-sm mt-1">
+              Work From Home
+            </p>
           </div>
         </Card>
       </motion.div>
